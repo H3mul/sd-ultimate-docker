@@ -53,26 +53,6 @@ export_env_vars() {
     echo 'source /etc/rp_environment' >> ~/.bashrc
 }
 
-# Start jupyter lab
-start_jupyter() {
-    if [[ $JUPYTER_PASSWORD ]]; then
-        echo "Starting Jupyter Lab..."
-        mkdir -p /workspace && \
-        cd / && \
-        nohup jupyter lab --allow-root \
-          --no-browser \
-          --port=8888 \
-          --ip=* \
-          --FileContentsManager.delete_to_trash=False \
-          --ContentsManager.allow_hidden=True \
-          --ServerApp.terminado_settings='{"shell_command":["/bin/bash"]}' \
-          --ServerApp.token=${JUPYTER_PASSWORD} \
-          --ServerApp.allow_origin=* \
-          --ServerApp.preferred_dir=/workspace &> /workspace/logs/jupyter.log &
-        echo "Jupyter Lab started"
-    fi
-}
-
 start_vsserver () {
     mkdir -p /workspace/vs-server
     [ ! -f /workspace/vs-server/settings.json ] && \
@@ -94,7 +74,6 @@ execute_script "/pre_start.sh" "Running pre-start script..."
 echo "Pod Started"
 
 setup_ssh
-# start_jupyter
 start_vsserver
 export_env_vars
 

@@ -10,7 +10,7 @@ services:
       - 3010:3010 # kohya
       - 6006:6006 # tensorboard
       - 8080:8080 # vs-code
-      - 8888:8888 # jupiter
+      - 9090:9090 # invokeai
     deploy:
       resources:
         reservations:

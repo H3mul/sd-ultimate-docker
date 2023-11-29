@@ -38,26 +38,6 @@ echo "Container is running"
 # echo "Fixing ComfyUI venv..."
 # /fix_venv.sh /ComfyUI/venv /workspace/ComfyUI/venv
 
-# Link models and VAE if they are not already linked
-
-set -x
-for model in /models/stable-diffusion/*; do
-    model_filename=$(basename "${model}")
-    target="/stable-diffusion-webui/models/Stable-diffusion/${model_filename}"
-    if [[ ! -L ${target} ]]; then
-        ln -s ${model} ${target}
-    fi
-done
-
-for vae in /models/vae/*; do
-    vae_filename=$(basename "${vae}")
-    target="/stable-diffusion-webui/models/VAE/${vae_filename}"
-    if [[ ! -L ${target} ]]; then
-        ln -s ${vae} ${target}
-    fi
-done
-set +x
-
 # Configure accelerate
 echo "Configuring accelerate..."
 mkdir -p /root/.cache/huggingface/accelerate
@@ -66,35 +46,25 @@ mv /accelerate.yaml /root/.cache/huggingface/accelerate/default_config.yaml
 # Create logs directory
 mkdir -p /workspace/logs
 
-# Start application manager
-# cd /workspace/app-manager
-# npm start > /workspace/logs/app-manager.log 2>&1 &
+mkdir -p /workspace/outputs/{a1111,kohya_ss,invokeai}
 
-# if [[ ${DISABLE_AUTOLAUNCH} ]]
-# then
-#     echo "Auto launching is disabled so the applications will not be started automatically"
-#     echo "You can launch them manually using the launcher scripts:"
-#     echo ""
-#     echo "   Stable Diffusion Web UI:"
-#     echo "   ---------------------------------------------"
-#     echo "   /start_a1111.sh"
-#     echo ""
-#     echo "   Kohya_ss"
-#     echo "   ---------------------------------------------"
-#     echo "   /start_kohya.sh"
-#     echo ""
-#     echo "   ComfyUI"
-#     echo "   ---------------------------------------------"
-#     echo "   /start_comfyui.sh"
-# else
-#     /start_a1111.sh
-#     /start_kohya.sh
-#     /start_comfyui.sh
-# fi
+ln -s /workspace/outputs/a1111 /stable-diffusion-webui/outputs
+
+ln -s /models/stable-diffusion/sd_xl_base_1.0.safetensors       /stable-diffusion-webui/models/Stable-diffusion/sd_xl_base_1.0.safetensors
+ln -s /models/stable-diffusion/sd_xl_refiner_1.0.safetensors    /stable-diffusion-webui/models/Stable-diffusion/sd_xl_refiner_1.0.safetensors
+ln -s /models/vae/sdxl_vae.safetensors                          /stable-diffusion-webui/models/VAE/sdxl_vae.safetensors
+
+ln -s /workspace/outputs/invokeai /invokeai/outputs
+
+mkdir -p /invokeai/autoimport/{main,vae}
+ln -s /models/stable-diffusion/sd_xl_base_1.0.safetensors       /invokeai/autoimport/main/sd_xl_base_1.0.safetensors
+ln -s /models/stable-diffusion/sd_xl_refiner_1.0.safetensors    /invokeai/autoimport/main/sd_xl_refiner_1.0.safetensors
+ln -s /models/vae/sdxl_vae.safetensors                          /invokeai/autoimport/vae/sdxl_vae.safetensors
 
 if [[ ! ${DISABLE_AUTOLAUNCH} ]]; then
     /start_a1111.sh
     /start_kohya.sh
+    /start_invokeai.sh
 fi
 
 if [ ${ENABLE_TENSORBOARD} ];

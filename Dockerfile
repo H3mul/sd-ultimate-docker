@@ -4,6 +4,8 @@ FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04 as base
 ARG WEBUI_VERSION=v1.6.0
 ARG DREAMBOOTH_COMMIT=cf086c536b141fc522ff11f6cffc8b7b12da04b9
 ARG KOHYA_VERSION=v22.2.1
+ARG INVOKEAI_VERSION=v3.4.0post2
+
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -64,10 +66,6 @@ RUN apt update && \
 
 # Set Python
 RUN ln -s /usr/bin/python3.10 /usr/bin/python
-
-# Install Torch, xformers and tensorrt
-RUN pip3 install --no-cache-dir torch==2.0.1 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 && \
-    pip3 install --no-cache-dir xformers==0.0.22 tensorrt
 
 # Stage 2: Install applications
 FROM base as setup
@@ -185,14 +183,24 @@ RUN git checkout ${KOHYA_VERSION} && \
     pip3 cache purge && \
     deactivate
 
-# Install Jupyter
-WORKDIR /
-RUN pip3 install -U --no-cache-dir jupyterlab \
-        jupyterlab_widgets \
-        ipykernel \
-        ipywidgets \
-        gdown
+# Install InvokeAI
+RUN git clone https://github.com/invoke-ai/InvokeAI.git /invokeai
+WORKDIR /invokeai
+RUN git checkout ${INVOKEAI_VERSION} && \
+    python3 -m venv --system-site-packages venv && \
+    source venv/bin/activate && \
+    pip3 install "InvokeAI[xformers]" --use-pep517 --extra-index-url https://download.pytorch.org/whl/cu121 && \
+    pip3 cache purge && \
+    deactivate
 
+COPY invokeai/invokeai.yaml ./invokeai.yaml
+# COPY invokeai/models.yaml ./configs/models.yaml
+# RUN invokeai-configure --yes --default_only --skip-sd-weights
+RUN source venv/bin/activate && \
+    invokeai-configure --root /invokeai --yes --default_only --skip-sd-weights && \
+    deactivate
+    
+# Install VS Server
 RUN curl -fsSL https://code-server.dev/install.sh | sh && \
     code-server --install-extension enkia.tokyo-night \
         --install-extension ms-python.python \
@@ -239,7 +247,7 @@ COPY --chmod=755 scripts/* ./
 COPY kohya_ss/accelerate.yaml ./
 
 VOLUME [ "/workspace" ]
-EXPOSE 3000 3010 6006 8888
+EXPOSE 3000 3010 6006 8080 9090
 
 # Start the container
 SHELL ["/bin/bash", "--login", "-c"]
