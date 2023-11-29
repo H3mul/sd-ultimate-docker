@@ -73,6 +73,18 @@ start_jupyter() {
     fi
 }
 
+start_vsserver () {
+    mkdir -p /workspace/vs-server
+    [ ! -f /workspace/vs-server/settings.json ] && \
+        cp /vs-server/settings.json /workspace/vs-server/settings.json
+    mkdir -p /root/.local/share/code-server/User
+    rm -rf /root/.local/share/code-server/User/settings.json
+    ln -s /workspace/vs-server/settings.json /root/.local/share/code-server/User/settings.json
+    if [[ $VS_SERVER_PASSWORD ]]; then
+        /start_vs_server.sh
+    fi
+}
+
 # ---------------------------------------------------------------------------- #
 #                               Main Program                                   #
 # ---------------------------------------------------------------------------- #
@@ -82,7 +94,8 @@ execute_script "/pre_start.sh" "Running pre-start script..."
 echo "Pod Started"
 
 setup_ssh
-start_jupyter
+# start_jupyter
+start_vsserver
 export_env_vars
 
 execute_script "/post_start.sh" "Running post-start script..."

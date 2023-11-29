@@ -193,6 +193,13 @@ RUN pip3 install -U --no-cache-dir jupyterlab \
         ipywidgets \
         gdown
 
+RUN curl -fsSL https://code-server.dev/install.sh | sh && \
+    code-server --install-extension enkia.tokyo-night \
+        --install-extension ms-python.python \
+        --install-extension foxx1337.autoscrolldown
+
+COPY /vs-server/settings.json /vs-server/settings.json 
+
 # # Install rclone
 # RUN curl https://rclone.org/install.sh | bash
 

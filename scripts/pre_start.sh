@@ -93,13 +93,8 @@ mkdir -p /workspace/logs
 # fi
 
 if [[ ! ${DISABLE_AUTOLAUNCH} ]]; then
-    echo "Starting A1111 Web UI..."
-    cd /stable-diffusion-webui
-    nohup ./webui.sh -f > /workspace/logs/a1111.log 2>&1 &
-
-    echo "Starting Kohya..."
-    cd /kohya_ss
-    nohup ./gui.sh --listen 0.0.0.0 --server_port 3010 --headless > /workspace/logs/kohya_ss.log 2>&1 &
+    /start_a1111.sh
+    /start_kohya.sh
 fi
 
 if [ ${ENABLE_TENSORBOARD} ];
