@@ -32,7 +32,6 @@ RUN apt update && \
         git \
         git-lfs \
         ncdu \
-        nginx \
         net-tools \
         inetutils-ping \
         openssh-server \
@@ -96,13 +95,6 @@ RUN python3 -m venv --system-site-packages /venv && \
     pip3 install --no-cache-dir xformers && \
     python3 -m install-automatic --skip-torch-cuda-test && \
     deactivate
-
-# Cache the Stable Diffusion Models
-# SDXL models result in OOM kills with 8GB system memory, probably need 12GB+ to cache these
-# RUN source /venv/bin/activate && \
-#     python3 cache-sd-model.py --use-cpu=all --ckpt /sd-models/sd_xl_base_1.0.safetensors && \
-#     python3 cache-sd-model.py --use-cpu=all --ckpt /sd-models/sd_xl_refiner_1.0.safetensors && \
-#     deactivate
 
 # Clone the Automatic1111 Extensions
 RUN git clone https://github.com/d8ahazard/sd_dreambooth_extension.git extensions/sd_dreambooth_extension && \
@@ -193,30 +185,6 @@ RUN git checkout ${KOHYA_VERSION} && \
     pip3 cache purge && \
     deactivate
 
-# # Install ComfyUI
-# RUN git clone https://github.com/comfyanonymous/ComfyUI.git /ComfyUI
-# WORKDIR /ComfyUI
-# RUN python3 -m venv --system-site-packages venv && \
-#     source venv/bin/activate && \
-#     pip3 install --no-cache-dir torch==2.0.1 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 && \
-#     pip3 install --no-cache-dir xformers==0.0.22 && \
-#     pip3 install -r requirements.txt && \
-#     deactivate
-
-# Install ComfyUI Custom Nodes
-# RUN git clone https://github.com/ltdrdata/ComfyUI-Manager.git custom_nodes/ComfyUI-Manager && \
-#     cd custom_nodes/ComfyUI-Manager && \
-#     source /ComfyUI/venv/bin/activate && \
-#     pip3 install -r requirements.txt && \
-#     pip3 cache purge && \
-#     deactivate
-
-# Install Application Manager
-# WORKDIR /
-# RUN git clone https://github.com/ashleykleynhans/app-manager.git /app-manager && \
-#     cd /app-manager && \
-#     npm install
-
 # Install Jupyter
 WORKDIR /
 RUN pip3 install -U --no-cache-dir jupyterlab \
@@ -232,9 +200,6 @@ RUN pip3 install -U --no-cache-dir jupyterlab \
 RUN wget https://github.com/runpod/runpodctl/releases/download/v1.10.0/runpodctl-linux-amd -O runpodctl && \
     chmod a+x runpodctl && \
     mv runpodctl /usr/local/bin
-
-# # Install croc
-# RUN curl https://getcroc.schollz.com | bash
 
 # Install speedtest CLI
 RUN curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | bash && \
@@ -257,11 +222,6 @@ ADD https://raw.githubusercontent.com/Douleb/SDXL-750-Styles-GPT4-/main/styles.c
 
 # Remove existing SSH host keys
 RUN rm -f /etc/ssh/ssh_host_*
-
-# NGINX Proxy
-COPY nginx/nginx.conf /etc/nginx/nginx.conf
-COPY nginx/502.html /usr/share/nginx/html/502.html
-COPY nginx/README.md /usr/share/nginx/html/README.md
 
 WORKDIR /
 

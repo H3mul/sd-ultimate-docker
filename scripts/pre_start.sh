@@ -99,7 +99,7 @@ if [[ ! ${DISABLE_AUTOLAUNCH} ]]; then
 
     echo "Starting Kohya..."
     cd /kohya_ss
-    nohup ./gui.sh --listen 0.0.0.0 --server_port 3011 --headless > /workspace/logs/kohya_ss.log 2>&1 &
+    nohup ./gui.sh --listen 0.0.0.0 --server_port 3010 --headless > /workspace/logs/kohya_ss.log 2>&1 &
 fi
 
 if [ ${ENABLE_TENSORBOARD} ];
