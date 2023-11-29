@@ -97,4 +97,4 @@ execute_script "/post_start.sh" "Running post-start script..."
 
 echo "Container is READY!"
 
-sleep infinity
+tail -F /workspace/logs/*
