@@ -29,6 +29,7 @@ RUN apt update && \
         python3-dev \
         nodejs \
         npm \
+        parallel \
         bash \
         dos2unix \
         git \
@@ -70,14 +71,6 @@ RUN ln -s /usr/bin/python3.10 /usr/bin/python
 # Stage 2: Install applications
 FROM base as setup
 
-RUN mkdir -p /models/{stable-diffusion,vae}
-WORKDIR /models
-
-# Add SDXL models and VAE
-RUN wget https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors -O /models/stable-diffusion/sd_xl_base_1.0.safetensors && \
-    wget https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors -O /models/stable-diffusion/sd_xl_refiner_1.0.safetensors && \
-    wget https://huggingface.co/madebyollin/sdxl-vae-fp16-fix/resolve/main/sdxl_vae.safetensors -O /models/vae/sdxl_vae.safetensors
-
 # Clone the git repo of the Stable Diffusion Web UI by Automatic1111
 # and set version
 WORKDIR /
@@ -87,10 +80,11 @@ RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
 
 WORKDIR /stable-diffusion-webui
 COPY a1111/requirements.txt a1111/requirements_versions.txt a1111/install-automatic.py ./
-RUN python3 -m venv --system-site-packages /venv && \
-    source /venv/bin/activate && \
+RUN python3 -m venv --system-site-packages venv && \
+    source venv/bin/activate && \
     pip3 install --no-cache-dir torch==2.0.1 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 && \
-    pip3 install --no-cache-dir xformers && \
+    pip3 install --no-cache-dir xformers==0.0.22 tensorrt && \
+    pip3 install --no-cache-dir -r requirements_versions.txt && \
     python3 -m install-automatic --skip-torch-cuda-test && \
     deactivate
 
@@ -102,13 +96,13 @@ RUN git clone https://github.com/d8ahazard/sd_dreambooth_extension.git extension
     git clone --depth=1 https://github.com/Gourieff/sd-webui-reactor.git extensions/sd-webui-reactor && \
     git clone --depth=1 https://github.com/zanllp/sd-webui-infinite-image-browsing.git extensions/infinite-image-browsing && \
     git clone --depth=1 https://github.com/Uminosachi/sd-webui-inpaint-anything.git extensions/inpaint-anything && \
-    git clone --depth=1 https://github.com/Bing-su/adetailer.git extensions/adetailer && \
-    git clone --depth=1 https://github.com/civitai/sd_civitai_extension.git extensions/sd_civitai_extension && \
-    git clone --depth=1 https://github.com/BlafKing/sd-civitai-browser-plus.git extensions/sd-civitai-browser-plus
+    git clone --depth=1 https://github.com/Bing-su/adetailer.git extensions/adetailer
+    # git clone --depth=1 https://github.com/civitai/sd_civitai_extension.git extensions/sd_civitai_extension && \
+    # git clone --depth=1 https://github.com/BlafKing/sd-civitai-browser-plus.git extensions/sd-civitai-browser-plus
 
 # Install dependencies for Deforum, ControlNet, ReActor, Infinite Image Browsing,
 # After Detailer, and CivitAI Browser+ extensions
-RUN source /venv/bin/activate && \
+RUN source venv/bin/activate && \
     cd /stable-diffusion-webui/extensions/deforum && \
     pip3 install -r requirements.txt && \
     cd /stable-diffusion-webui/extensions/sd-webui-controlnet && \
@@ -120,20 +114,20 @@ RUN source /venv/bin/activate && \
     pip3 install -r requirements.txt && \
     cd /stable-diffusion-webui/extensions/adetailer && \
     python3 -m install && \
-    cd /stable-diffusion-webui/extensions/sd_civitai_extension && \
-    pip3 install -r requirements.txt && \
+    # cd /stable-diffusion-webui/extensions/sd_civitai_extension && \
+    # pip3 install -r requirements.txt && \
     deactivate
 
 # Install dependencies for inpaint anything extension
-RUN source /venv/bin/activate && \
+RUN source venv/bin/activate && \
     pip3 install segment_anything lama_cleaner && \
     deactivate
 
 # Install dependencies for Civitai Browser+ extension
-RUN source /venv/bin/activate && \
-    cd /stable-diffusion-webui/extensions/sd-civitai-browser-plus && \
-    pip3 install send2trash ZipUnicode && \
-    deactivate
+# RUN source venv/bin/activate && \
+#     cd /stable-diffusion-webui/extensions/sd-civitai-browser-plus && \
+#     pip3 install send2trash ZipUnicode && \
+#     deactivate
 
 # Set Dreambooth extension version
 WORKDIR /stable-diffusion-webui/extensions/sd_dreambooth_extension
@@ -143,7 +137,7 @@ RUN git checkout main && \
 # Install the dependencies for the Dreambooth extension
 WORKDIR /stable-diffusion-webui
 COPY a1111/requirements_dreambooth.txt ./requirements.txt
-RUN source /venv/bin/activate && \
+RUN source venv/bin/activate && \
     cd /stable-diffusion-webui/extensions/sd_dreambooth_extension && \
     pip3 install -r requirements.txt && \
     deactivate
@@ -156,12 +150,21 @@ RUN mkdir -p /stable-diffusion-webui/models/insightface && \
 # Configure ReActor to use the GPU instead of the CPU
 RUN echo "CUDA" > /stable-diffusion-webui/extensions/sd-webui-reactor/last_device.txt
 
-# Fix Tensorboard
-RUN source /venv/bin/activate && \
-    pip3 uninstall -y tensorboard tb-nightly && \
-    pip3 install tensorboard tensorflow && \
-    pip3 cache purge && \
-    deactivate
+# Install CivitAI Model Downloader
+# RUN git clone --depth=1 https://github.com/ashleykleynhans/civitai-downloader.git && \
+#     mv civitai-downloader/download.sh /usr/local/bin/download-model && \
+#     chmod +x /usr/local/bin/download-model
+
+# Copy Stable Diffusion Web UI config files
+# COPY a1111/relauncher.py a1111/webui-user.sh a1111/config.json a1111/ui-config.json /stable-diffusion-webui/
+COPY a1111/webui-user.sh a1111/config.json a1111/ui-config.json /stable-diffusion-webui/
+
+# ADD SDXL styles.csv
+ADD https://raw.githubusercontent.com/Douleb/SDXL-750-Styles-GPT4-/main/styles.csv /stable-diffusion-webui/styles.csv
+
+# Copy ComfyUI Extra Model Paths (to share models with A1111)
+# COPY comfyui/extra_model_paths.yaml /ComfyUI
+
 
 # Install Kohya_ss
 RUN git clone https://github.com/bmaltais/kohya_ss.git /kohya_ss
@@ -220,21 +223,6 @@ RUN wget https://github.com/runpod/runpodctl/releases/download/v1.10.0/runpodctl
 RUN curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | bash && \
     apt install speedtest
 
-# Install CivitAI Model Downloader
-RUN git clone --depth=1 https://github.com/ashleykleynhans/civitai-downloader.git && \
-    mv civitai-downloader/download.sh /usr/local/bin/download-model && \
-    chmod +x /usr/local/bin/download-model
-
-# Copy Stable Diffusion Web UI config files
-# COPY a1111/relauncher.py a1111/webui-user.sh a1111/config.json a1111/ui-config.json /stable-diffusion-webui/
-COPY a1111/webui-user.sh a1111/config.json a1111/ui-config.json /stable-diffusion-webui/
-
-# ADD SDXL styles.csv
-ADD https://raw.githubusercontent.com/Douleb/SDXL-750-Styles-GPT4-/main/styles.csv /stable-diffusion-webui/styles.csv
-
-# Copy ComfyUI Extra Model Paths (to share models with A1111)
-# COPY comfyui/extra_model_paths.yaml /ComfyUI
-
 # Remove existing SSH host keys
 RUN rm -f /etc/ssh/ssh_host_*
 
@@ -242,6 +230,7 @@ WORKDIR /
 
 # Copy the scripts
 COPY --chmod=755 scripts/* ./
+COPY model-download.txt /model-download.txt
 
 # Copy the accelerate configuration
 COPY kohya_ss/accelerate.yaml ./

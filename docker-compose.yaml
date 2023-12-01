@@ -5,6 +5,9 @@ services:
     environment:
       PUBLIC_KEY: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC+siaAQHJUe14o+RntWjbpxsTlklxY2pEUSrKKuGQGgBdWD/DTdnkIbD3DjfmNy7BQSuVp/JGaqyoGAQYOzhJec766omEQpZezXC752NNKh7+Q9OZ7EL+aKuvgR8rM1PbXsEW+l7xcqB0/nZccLevpfnEIKvQpz0RhorGfGU6Gx9V8N8zI7icST9TUs/kHYoTowL6ZPMxEe54+y852Y073spemlD9BTXO7ZX/hUn0ZMA5cxeNcfK5O6zOmq+wVSie34qH6ee0AZ9ojrDqaa+9CXjyp69bY96wu+8OibfRsK73lDp2S255m5+SUFPvUh24RgDMbmyaMTtaS4XCbOMSV6IitvV++lUx7CFA5SWx3GybnK6TVT72eVCELDv0j5FP3sKHhJJ4s+AiHRNH76vVB2Ymhenp79JDy4l6w4sHIE/steow5c+Xjsrq2/YZkyw1efRjD0Gv+D5bBHHX7/8jpnNgrEPaTrnA32KKH/v/rAVcgcKhLMqiFUvEU4tpZaSM= hemul@Kaden
       VS_SERVER_PASSWORD: testpass
+      # DISABLE_MODEL_DOWNLOAD: "true"
+    volumes:
+      - /mnt/c/Users/Hemul/StableDiffusion/workspace:/workspace
     ports:
       - 3000:3000 # a1111
       - 3010:3010 # kohya
