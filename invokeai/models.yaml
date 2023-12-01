@@ -1,14 +1,17 @@
 __metadata__:
   version: 3.0.0
-sdxl/main/stable-diffusion-xl-base-1-0:
-  path: sdxl/main/sd_xl_base_1.0.safetensors
-  description: Stable Diffusion XL base model (12 GB)
-  config: configs/stable-diffusion/sd_xl_base.yaml
+sdxl/main/sd_xl-base-1.0:
+  path: sdxl/main/sd_xl-base-1.0
+  description: sdxl base model 
   variant: normal
-  format: checkpoint
-sdxl-refiner/main/stable-diffusion-xl-refiner-1-0:
-  path: sdxl-refiner/main/sd_xl_refiner_1.0.safetensors
-  description: Stable Diffusion XL refiner model (12 GB)
-  config: configs/stable-diffusion/sd_xl_refiner.yaml
+  format: diffusers
+sdxl/main/sd_xl-refiner-1.0:
+  path: sdxl/main/sd_xl-refiner-1.0
+  description: sdxl refiner model 
   variant: normal
-  format: checkpoint
+  format: diffusers
+sdxl/main/sd_xl-1.0-inpainting-0.1:
+  path: sdxl/main/sd_xl-1.0-inpainting-0.1
+  description: sdxl inpaint model
+  variant: inpaint
+  format: diffusers

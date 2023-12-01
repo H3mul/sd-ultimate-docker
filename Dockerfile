@@ -30,6 +30,7 @@ RUN apt update && \
         nodejs \
         npm \
         parallel \
+        aria2 \
         bash \
         dos2unix \
         git \
@@ -196,8 +197,6 @@ RUN git checkout ${INVOKEAI_VERSION} && \
     pip3 cache purge && \
     deactivate
 
-COPY invokeai/invokeai.yaml ./invokeai.yaml
-# COPY invokeai/models.yaml ./configs/models.yaml
 # RUN invokeai-configure --yes --default_only --skip-sd-weights
 RUN source venv/bin/activate && \
     invokeai-configure --root /invokeai --yes --default_only --skip-sd-weights && \
@@ -230,10 +229,13 @@ WORKDIR /
 
 # Copy the scripts
 COPY --chmod=755 scripts/* ./
-COPY model-download.txt /model-download.txt
+COPY model-download-aria2.txt /model-download-aria2.txt
 
 # Copy the accelerate configuration
 COPY kohya_ss/accelerate.yaml ./
+
+COPY invokeai/invokeai.yaml ./invokeai.yaml
+COPY invokeai/models.yaml ./configs/models.yaml
 
 VOLUME [ "/workspace" ]
 EXPOSE 3000 3010 6006 8080 9090
