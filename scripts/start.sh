@@ -75,7 +75,7 @@ echo "Pod Started"
 
 echo "Starting services..."
 if [[ ! ${DISABLE_AUTOLAUNCH} ]]; then
-    /start_a1111.sh
+    # /start_a1111.sh
     /start_kohya.sh
     /start_invokeai.sh
 fi

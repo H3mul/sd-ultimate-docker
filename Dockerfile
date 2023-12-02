@@ -67,7 +67,8 @@ RUN apt update && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 
 # Set Python
-RUN ln -s /usr/bin/python3.10 /usr/bin/python
+RUN ln -s /usr/bin/python3.10 /usr/bin/python && \
+    pip3 install 'huggingface_hub[cli]' hf_transfer
 
 # Stage 2: Install applications
 FROM base as setup
@@ -197,7 +198,9 @@ RUN git checkout ${INVOKEAI_VERSION} && \
     pip3 cache purge && \
     deactivate
 
-# RUN invokeai-configure --yes --default_only --skip-sd-weights
+COPY invokeai/invokeai.yaml ./invokeai.yaml
+COPY invokeai/models.yaml ./configs/models.yaml
+
 RUN source venv/bin/activate && \
     invokeai-configure --root /invokeai --yes --default_only --skip-sd-weights && \
     deactivate
@@ -229,13 +232,10 @@ WORKDIR /
 
 # Copy the scripts
 COPY --chmod=755 scripts/* ./
-COPY model-download-aria2.txt /model-download-aria2.txt
+COPY model-download-aria2.txt /
 
 # Copy the accelerate configuration
 COPY kohya_ss/accelerate.yaml ./
-
-COPY invokeai/invokeai.yaml ./invokeai.yaml
-COPY invokeai/models.yaml ./configs/models.yaml
 
 VOLUME [ "/workspace" ]
 EXPOSE 3000 3010 6006 8080 9090

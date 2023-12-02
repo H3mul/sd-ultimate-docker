@@ -10,33 +10,47 @@ mkdir -p /workspace/logs
 mkdir -p /workspace/outputs/{a1111,kohya_ss,invokeai}
 
 ln -fs /workspace/outputs/a1111 /stable-diffusion-webui/outputs
-ln -fs /workspace/outputs/invokeai /invokeai/outputs
 
 if [[ ! ${DISABLE_MODEL_DOWNLOAD} ]]; then
-    echo "Downloading missing models..."
-    mkdir -p /workspace/models/{main,vae,controlnet}
+    echo "Downloading missing shared models..."
+    mkdir -p /workspace/models/main
+
     aria2c -i /model-download-aria2.txt -j 4 -c
+    echo "Linking models into A1111..."
+    ln -fs /workspace/models/main/sd_xl_base_1.0_0.9vae.safetensors                 /stable-diffusion-webui/models/Stable-diffusion/sd_xl_base_1.0_0.9vae.safetensors
+    ln -fs /workspace/models/main/sd_xl_refiner_1.0.safetensors                     /stable-diffusion-webui/models/Stable-diffusion/sd_xl_refiner_1.0.safetensors
+    ln -fs /workspace/models/main/sd_xl_refiner_1.0_0.9vae.safetensors              /stable-diffusion-webui/models/Stable-diffusion/sd_xl_refiner_1.0_0.9vae.safetensors
 
-    echo "Linking models into services..."
-    ln -fs /workspace/models/main/sd_xl-base-1.0/diffusion_pytorch_model.safetensors            /stable-diffusion-webui/models/Stable-diffusion/sd_xl-base-1.0.safetensors
-    ln -fs /workspace/models/main/sd_xl-refiner-1.0/diffusion_pytorch_model.safetensors         /stable-diffusion-webui/models/Stable-diffusion/sd_xl-refiner-1.0.safetensors
-    ln -fs /workspace/models/main/sd_xl-1.0-inpainting-0.1/diffusion_pytorch_model.safetensors  /stable-diffusion-webui/models/Stable-diffusion/sd_xl-1.0-inpainting-0.1.safetensors
+    echo "Linking InvokeAI..."
+    mkdir -p /workspace/invoke/{models,configs,databases}
+    rsync -avP /invokeai/models/     /workspace/invoke/models/
+    rsync -avP /invokeai/configs/    /workspace/invoke/configs/
+    rsync -avP /invokeai/databases/  /workspace/invoke/databases/
+    rm -r /invokeai/{models,configs,databases}
+    ln -fs /workspace/invoke/models     /invokeai/models
+    ln -fs /workspace/invoke/configs    /invokeai/configs
+    ln -fs /workspace/invoke/databases  /invokeai/databases
+    ln -fs /workspace/outputs/invokeai  /invokeai/outputs
 
-    # ln -fs /workspace/models/vae/sdxl_vae_fp16_fix/diffusion_pytorch_model.safetensors /stable-diffusion-webui/models/VAE/sdxl_vae_fp16_fix.safetensors
+    ln -fs /workspace/models/main/sd_xl_base_1.0_0.9vae.safetensors     /invokeai/autoimport/sd_xl_base_1.0_0.9vae.safetensors
+    ln -fs /workspace/models/main/sd_xl_refiner_1.0_0.9vae.safetensors  /invokeai/autoimport/sd_xl_refiner_1.0_0.9vae.safetensors
 
-    # ln -fs /workspace/models/controlnet/controlnet-canny-sdxl-1.0.safetensors       /stable-diffusion-webui/models/ControlNet/controlnet-canny-sdxl-1.0.safetensors
-    # ln -fs /workspace/models/controlnet/controlnet-canny-sdxl-1.0-fp16.safetensors  /stable-diffusion-webui/models/ControlNet/controlnet-canny-sdxl-1.0-fp16.safetensors
-    # ln -fs /workspace/models/controlnet/controlnet-depth-sdxl-1.0.safetensors       /stable-diffusion-webui/models/ControlNet/controlnet-depth-sdxl-1.0.safetensors
-    # ln -fs /workspace/models/controlnet/controlnet-depth-sdxl-1.0-fp16.safetensors  /stable-diffusion-webui/models/ControlNet/controlnet-depth-sdxl-1.0-fp16.safetensors
 
-    mkdir -p /invokeai/autoimport/{main,vae,controlnet}
-    ln -fs /workspace/models/main/sd_xl-base-1.0                    /invokeai/models/sdxl/main/sd_xl-base-1.0
-    ln -fs /workspace/models/main/sd_xl-refiner-1.0                 /invokeai/models/sdxl/main/sd_xl-refiner-1.0
-    ln -fs /workspace/models/main/sd_xl-1.0-inpainting-0.1          /invokeai/models/sdxl/main/sd_xl-1.0-inpainting-0.1
-    ln -fs /workspace/models/vae/sdxl_vae_fp16_fix                  /invokeai/models/sdxl/vae/sdxl_vae_fp16_fix
-    ln -fs /workspace/models/controlnet/controlnet-canny-sdxl-1.0   /invokeai/models/sdxl/controlnet/controlnet-canny-sdxl-1.0
-    ln -fs /workspace/models/controlnet/controlnet-depth-sdxl-1.0   /invokeai/models/sdxl/controlnet/controlnet-depth-sdxl-1.0
+    if [ ! -z ${FORCE_INVOKE_MODEL_ADD} ] || [ ! -f /workspace/invoke/models_fetched ]; then
+        echo "Adding InvokeAI models..."
+        cd /invokeai
+        source venv/bin/activate
 
+        # Assume that if we don't have inpaint model we didnt install the additional invoke models
+        invokeai-model-install --root /invokeai --yes --add \
+            diffusers/stable-diffusion-xl-1.0-inpainting-0.1 \
+            diffusers/controlnet-canny-sdxl-1.0 \
+            diffusers/controlnet-depth-sdxl-1.0 \
+            madebyollin/sdxl-vae-fp16-fix
+
+        touch /workspace/invoke/models_fetched
+        deactivate
+    fi
 fi
 
 if [[ ! ${DISABLE_TRAINING_ASSET_DOWNLOAD} ]] && [ ! -d /workspace/training-assets ]; then
@@ -47,6 +61,6 @@ if [[ ! ${DISABLE_TRAINING_ASSET_DOWNLOAD} ]] && [ ! -d /workspace/training-asse
             -o /workspace/training-assets.tar.gz
 
     echo "Extracting training assets..."
-    tar -xzf /workspace/training-assets.tar.gz -C /workspace/training-assets
+    tar -xzf /workspace/training-assets.tar.gz -C /workspace/training-assets --no-same-owner
     rm /workspace/training-assets.tar.gz
 fi

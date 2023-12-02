@@ -35,8 +35,8 @@ InvokeAI:
   Development:
     dev_reload: false
   Model Cache:
-    ram: 7.5
-    vram: 0.25
+    ram: 30
+    vram: 20
     lazy_offload: true
     log_memory_usage: false
   Device:
