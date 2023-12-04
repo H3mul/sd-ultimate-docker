@@ -6,51 +6,31 @@ echo "Configuring accelerate..."
 mkdir -p /root/.cache/huggingface/accelerate
 mv /accelerate.yaml /root/.cache/huggingface/accelerate/default_config.yaml
 
-mkdir -p /workspace/logs
-mkdir -p /workspace/outputs/{a1111,kohya_ss,invokeai}
+echo "Setting the app install root to ${INSTALL_ROOT}"
+mkdir -p ${INSTALL_ROOT}
+export KOHYA_ROOT="${INSTALL_ROOT}/kohya_ss"
+export INVOKEAI_ROOT="${INSTALL_ROOT}/invokeai"
+export A1111_ROOT="${INSTALL_ROOT}/a1111"
 
-ln -fs /workspace/outputs/a1111 /stable-diffusion-webui/outputs
+[ -d ${INVOKEAI_ROOT} ] || /install_invoke.sh
+[ -d ${KOHYA_ROOT} ]    || /install_kohya.sh
+
+ln -fs /workspace/outputs/invokeai  ${INVOKEAI_ROOT}/outputs
+
+mkdir -p /workspace/logs
 
 if [[ ! ${DISABLE_MODEL_DOWNLOAD} ]]; then
     echo "Downloading missing shared models..."
     mkdir -p /workspace/models/main
-
     aria2c -i /model-download-aria2.txt -j 4 -c
-    echo "Linking models into A1111..."
-    ln -fs /workspace/models/main/sd_xl_base_1.0_0.9vae.safetensors                 /stable-diffusion-webui/models/Stable-diffusion/sd_xl_base_1.0_0.9vae.safetensors
-    ln -fs /workspace/models/main/sd_xl_refiner_1.0.safetensors                     /stable-diffusion-webui/models/Stable-diffusion/sd_xl_refiner_1.0.safetensors
-    ln -fs /workspace/models/main/sd_xl_refiner_1.0_0.9vae.safetensors              /stable-diffusion-webui/models/Stable-diffusion/sd_xl_refiner_1.0_0.9vae.safetensors
+
+    # echo "Linking models into A1111..."
+    # ln -fs /workspace/models/main/sd_xl_base_1.0_0.9vae.safetensors     ${A1111_ROOT}/models/Stable-diffusion/sd_xl_base_1.0_0.9vae.safetensors
+    # ln -fs /workspace/models/main/sd_xl_refiner_1.0_0.9vae.safetensors  ${A1111_ROOT}/models/Stable-diffusion/sd_xl_refiner_1.0_0.9vae.safetensors
 
     echo "Linking InvokeAI..."
-    mkdir -p /workspace/invoke/{models,configs,databases}
-    rsync -avP /invokeai/models/     /workspace/invoke/models/
-    rsync -avP /invokeai/configs/    /workspace/invoke/configs/
-    rsync -avP /invokeai/databases/  /workspace/invoke/databases/
-    rm -r /invokeai/{models,configs,databases}
-    ln -fs /workspace/invoke/models     /invokeai/models
-    ln -fs /workspace/invoke/configs    /invokeai/configs
-    ln -fs /workspace/invoke/databases  /invokeai/databases
-    ln -fs /workspace/outputs/invokeai  /invokeai/outputs
-
-    ln -fs /workspace/models/main/sd_xl_base_1.0_0.9vae.safetensors     /invokeai/autoimport/sd_xl_base_1.0_0.9vae.safetensors
-    ln -fs /workspace/models/main/sd_xl_refiner_1.0_0.9vae.safetensors  /invokeai/autoimport/sd_xl_refiner_1.0_0.9vae.safetensors
-
-
-    if [ ! -z ${FORCE_INVOKE_MODEL_ADD} ] || [ ! -f /workspace/invoke/models_fetched ]; then
-        echo "Adding InvokeAI models..."
-        cd /invokeai
-        source venv/bin/activate
-
-        # Assume that if we don't have inpaint model we didnt install the additional invoke models
-        invokeai-model-install --root /invokeai --yes --add \
-            diffusers/stable-diffusion-xl-1.0-inpainting-0.1 \
-            diffusers/controlnet-canny-sdxl-1.0 \
-            diffusers/controlnet-depth-sdxl-1.0 \
-            madebyollin/sdxl-vae-fp16-fix
-
-        touch /workspace/invoke/models_fetched
-        deactivate
-    fi
+    ln -fs /workspace/models/main/sd_xl_base_1.0_0.9vae.safetensors     ${INVOKEAI_ROOT}/autoimport/sd_xl_base_1.0_0.9vae.safetensors
+    ln -fs /workspace/models/main/sd_xl_refiner_1.0_0.9vae.safetensors  ${INVOKEAI_ROOT}/autoimport/sd_xl_refiner_1.0_0.9vae.safetensors
 fi
 
 if [[ ! ${DISABLE_TRAINING_ASSET_DOWNLOAD} ]] && [ ! -d /workspace/training-assets ]; then
@@ -61,6 +41,6 @@ if [[ ! ${DISABLE_TRAINING_ASSET_DOWNLOAD} ]] && [ ! -d /workspace/training-asse
             -o /workspace/training-assets.tar.gz
 
     echo "Extracting training assets..."
-    tar -xzf /workspace/training-assets.tar.gz -C /workspace/training-assets --no-same-owner
+    tar -xvzf /workspace/training-assets.tar.gz -C /workspace/training-assets --no-same-owner
     rm /workspace/training-assets.tar.gz
 fi

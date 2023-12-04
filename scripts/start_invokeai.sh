@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 echo "Starting InvokeAI..."
-source /invokeai/venv/bin/activate
+source ${INVOKEAI_ROOT}/venv/bin/activate
 
-nohup /invokeai/scripts/invokeai-web.py \
+nohup ${INVOKEAI_ROOT}/scripts/invokeai-web.py \
     > /workspace/logs/invokeai.log 2>&1 &           
 echo $! > /invokeai.pid
 echo "Started InvokeAI"
