@@ -1,25 +1,25 @@
 #!/usr/bin/env bash
+set -eu
+
 export PYTHONUNBUFFERED=1
 
 # Configure accelerate
 echo "Configuring accelerate..."
 mkdir -p /root/.cache/huggingface/accelerate
-mv /accelerate.yaml /root/.cache/huggingface/accelerate/default_config.yaml
+cp /accelerate.yaml /root/.cache/huggingface/accelerate/default_config.yaml
 
 echo "Setting the app install root to ${INSTALL_ROOT}"
 mkdir -p ${INSTALL_ROOT}
-export KOHYA_ROOT="${INSTALL_ROOT}/kohya_ss"
-export INVOKEAI_ROOT="${INSTALL_ROOT}/invokeai"
-export A1111_ROOT="${INSTALL_ROOT}/a1111"
 
-[ -d ${INVOKEAI_ROOT} ] || /install_invoke.sh
-[ -d ${KOHYA_ROOT} ]    || /install_kohya.sh
-
-ln -fs /workspace/outputs/invokeai  ${INVOKEAI_ROOT}/outputs
+echo "Starting app provision in parallel..."
+/provision_invokeai.sh &
+/provision_kohya.sh &
+wait
+echo "All app installs complete"
 
 mkdir -p /workspace/logs
 
-if [[ ! ${DISABLE_MODEL_DOWNLOAD} ]]; then
+if [ "${DISABLE_MODEL_DOWNLOAD}" != true ]; then
     echo "Downloading missing shared models..."
     mkdir -p /workspace/models/main
     aria2c -i /model-download-aria2.txt -j 4 -c
@@ -33,7 +33,7 @@ if [[ ! ${DISABLE_MODEL_DOWNLOAD} ]]; then
     ln -fs /workspace/models/main/sd_xl_refiner_1.0_0.9vae.safetensors  ${INVOKEAI_ROOT}/autoimport/sd_xl_refiner_1.0_0.9vae.safetensors
 fi
 
-if [[ ! ${DISABLE_TRAINING_ASSET_DOWNLOAD} ]] && [ ! -d /workspace/training-assets ]; then
+if [ "${DISABLE_TRAINING_ASSET_DOWNLOAD}" != true ] && [ ! -d /workspace/training-assets ]; then
     echo "Downloading training assets..."
     mkdir -p /workspace/training-assets
     [ -f /workspace/training-assets.tar.gz ] || \

@@ -23,7 +23,7 @@ InvokeAI:
     models_dir: models
     legacy_conf_dir: configs/stable-diffusion
     db_dir: databases
-    outdir: /invokeai/outputs
+    outdir: outputs
     use_memory_db: false
     custom_nodes_dir: nodes
   Logging:

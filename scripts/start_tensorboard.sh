@@ -10,7 +10,8 @@ if [[ ! -L /workspace/logs/ti ]]; then
     ln -s /workspace/stable-diffusion-webui/textual_inversion /workspace/logs/ti
 fi
 source /workspace/venv/bin/activate
-nohup tensorboard --logdir=/workspace/logs --port=6066 --host=0.0.0.0 > /workspace/logs/tensorboard.log 2>&1 &
+nohup tensorboard --logdir=/workspace/logs --port=6066 --host=0.0.0.0 \
+    >> /workspace/logs/tensorboard.log 2>&1 &
 echo $! > /tensorboard.pid
 deactivate
 echo "Tensorboard Started"

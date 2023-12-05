@@ -7,6 +7,7 @@ services:
       VS_SERVER_PASSWORD: testpass
       # DISABLE_MODEL_DOWNLOAD: "true"
       DISABLE_TRAINING_ASSET_DOWNLOAD: "true"
+      # SHUTDOWN_AFTER_PROVISION: "true"
     volumes:
       - /mnt/c/Users/Hemul/StableDiffusion/workspace:/workspace
     ports:

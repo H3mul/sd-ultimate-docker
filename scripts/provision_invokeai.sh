@@ -1,19 +1,24 @@
 #!/usr/bin/env bash
 set -eu
 
-rm -rf ${INVOKEAI_ROOT}
+[ -d ${INVOKEAI_ROOT} ] || git clone https://github.com/invoke-ai/InvokeAI.git ${INVOKEAI_ROOT}
 
-# Install InvokeAI
-git clone https://github.com/invoke-ai/InvokeAI.git ${INVOKEAI_ROOT}
 cd ${INVOKEAI_ROOT}
 
+git fetch --tags
 git checkout ${INVOKEAI_VERSION}
-python3 -m venv --system-site-packages venv
+
+if [ -f install_complete ]; then 
+    echo "install_complete flag file found, skipping InvokeAI install..."
+    exit
+fi
+
+[ -d venv ] || python3 -m venv --system-site-packages venv
+
 source venv/bin/activate
 pip3 install "InvokeAI[xformers]" --use-pep517 --extra-index-url https://download.pytorch.org/whl/cu121
-pip3 cache purge
 
-cp /config/invokeai/invokeai.yaml ./invokeai.yaml
+[ -f invokeai.yaml ] || cp /config/invokeai/invokeai.yaml ./invokeai.yaml
 
 echo "Configuring InvokeAI..."
 invokeai-configure --root ${INVOKEAI_ROOT} --yes --default_only --skip-sd-weights
@@ -23,6 +28,5 @@ invokeai-model-install --root ${INVOKEAI_ROOT} --yes --add \
     diffusers/controlnet-canny-sdxl-1.0 \
     diffusers/controlnet-depth-sdxl-1.0 \
     madebyollin/sdxl-vae-fp16-fix
-touch /workspace/invoke/models_fetched
-
 deactivate
+touch install_complete

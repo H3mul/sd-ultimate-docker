@@ -71,18 +71,20 @@ start_vsserver () {
 
 execute_script "/pre_start.sh" "Running pre-start script..."
 
+
+if [ "${SHUTDOWN_AFTER_PROVISION}" = true ]; then
+    echo "Provisioning complete, shutting down..."
+    [ -z ${RUNPOD_POD_ID} ] || runpodctl remove pod ${RUNPOD_POD_ID}
+    exit
+fi 
+
 echo "Pod Started"
 
 echo "Starting services..."
-if [[ ! ${DISABLE_AUTOLAUNCH} ]]; then
+if [ "${DISABLE_AUTOLAUNCH}" != true ]; then
     # /start_a1111.sh
     /start_kohya.sh
     /start_invokeai.sh
-fi
-
-if [ ${ENABLE_TENSORBOARD} ];
-then
-    /start_tensorboard.sh
 fi
 
 setup_ssh
