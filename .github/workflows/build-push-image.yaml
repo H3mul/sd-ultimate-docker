@@ -32,5 +32,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          cache-from: h3mul/sd-ultimate:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           tags: h3mul/sd-ultimate:latest
