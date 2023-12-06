@@ -2,9 +2,9 @@ name: Build & Push Image
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - main
 
 jobs:
   docker:
@@ -17,7 +17,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           # list of Docker images to use as base name for tags
-          images: h3mul/stable-diffusion-docker
+          images: h3mul/sd-ultimate
           labels: latest
       # - name: Set up QEMU
       #   uses: docker/setup-qemu-action@v3
@@ -32,5 +32,5 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          cache-from: h3mul/stable-diffusion-docker:latest
-          tags: h3mul/stable-diffusion-docker:latest
+          cache-from: h3mul/sd-ultimate:latest
+          tags: h3mul/sd-ultimate:latest
