@@ -25,4 +25,4 @@ if [ -z ${RUNPOD_POD_ID} ]; then
 fi
 
 echo "Tracking pid ${TRACKING_PID} and shutting down runpod after it exits..."
-nohup sh -c "watch -g -n 30 ps -opid -p ${TRACKING_PID} && runpodctl remove pod ${RUNPOD_POD_ID}" &
+nohup sh -c "watch -g -n 30 ps -opid -p ${TRACKING_PID} && runpodctl remove pod ${RUNPOD_POD_ID}" >/dev/null 2>&1 &
