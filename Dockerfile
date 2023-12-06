@@ -37,6 +37,7 @@ RUN apt update && \
         ffmpeg \
         wget \
         curl \
+        pslist \
         psmisc \
         rsync \
         vim \
@@ -94,7 +95,7 @@ ENV DISABLE_MODEL_DOWNLOAD=false
 ENV DISABLE_TRAINING_ASSET_DOWNLOAD=false
 ENV SHUTDOWN_AFTER_PROVISION=false
 ENV DISABLE_AUTOLAUNCH=false
-ENV POD_TERMINATION_PID_PATTERN=train.py
+ENV POD_TERMINATION_PID_PATTERN=train
 
 # Copy the scripts
 COPY --chmod=755 scripts/* ./
