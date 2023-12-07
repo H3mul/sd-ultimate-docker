@@ -14,7 +14,7 @@ if [ -f install_complete ]; then
     exit
 fi
 
-cp /config/kohya_ss/requirements* ./
+cp /app/config/kohya_ss/requirements* ./
 
 [ -d venv ] || python3 -m venv --system-site-packages venv
 source venv/bin/activate

@@ -82,6 +82,16 @@ RUN rm -f /etc/ssh/ssh_host_*
 
 WORKDIR /
 
+# Copy the scripts
+COPY --chmod=755 scripts/* /app/scripts/
+COPY model-download-aria2.txt /app/config/
+
+COPY invokeai/invokeai.yaml /app/config/invokeai/invokeai.yaml
+COPY a1111/* /app/config/a1111/
+COPY kohya_ss/* /app/config/kohya_ss/
+
+ENV PATH=${PATH}:/app/scripts
+
 ENV INSTALL_ROOT=/workspace/apps
 ENV KOHYA_ROOT="${INSTALL_ROOT}/kohya_ss"
 ENV INVOKEAI_ROOT="${INSTALL_ROOT}/invokeai"
@@ -98,20 +108,9 @@ ENV SHUTDOWN_AFTER_PROVISION=false
 ENV DISABLE_AUTOLAUNCH=false
 ENV POD_TERMINATION_PID_PATTERN=train
 
-# Copy the scripts
-COPY --chmod=755 scripts/* ./
-COPY model-download-aria2.txt /
-
-COPY invokeai/invokeai.yaml /config/invokeai/invokeai.yaml
-COPY a1111 /config/a1111/
-COPY kohya_ss/requirements* /config/kohya_ss/
-
-# Copy the accelerate configuration
-COPY kohya_ss/accelerate.yaml ./
-
 VOLUME [ "/workspace" ]
 EXPOSE 3000 3010 6006 8080 9090
 
 # Start the container
 SHELL ["/bin/bash", "--login", "-c"]
-CMD [ "/start.sh" ]
+CMD [ "/app/scripts/start.sh" ]

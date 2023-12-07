@@ -17,7 +17,7 @@ fi
 [ -d venv ] || python3 -m venv --system-site-packages venv
 source venv/bin/activate
 
-cp /config/a1111/* ./
+cp /app/config/a1111/* ./
 
 pip3 install --no-cache-dir torch==2.0.1 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 pip3 install --no-cache-dir xformers==0.0.22 tensorrt segment_anything lama_cleaner onnxruntime-gpu
@@ -52,7 +52,7 @@ python3 -m install
 cd ${A1111_ROOT}/extensions/sd_dreambooth_extension
 git checkout main
 git reset ${DREAMBOOTH_COMMIT} --hard
-cp /config/a1111/requirements_dreambooth.txt ./requirements.txt
+cp /app/config/a1111/requirements_dreambooth.txt ./requirements.txt
 pip3 install -r requirements.txt
 
 deactivate

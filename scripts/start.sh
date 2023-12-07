@@ -61,7 +61,7 @@ start_vsserver () {
     rm -rf /root/.local/share/code-server/User/settings.json
     ln -s /workspace/vs-server/settings.json /root/.local/share/code-server/User/settings.json
     if [[ $VS_SERVER_PASSWORD ]]; then
-        /start_vs_server.sh
+        start_vs_server.sh
     fi
 }
 
@@ -82,16 +82,16 @@ echo "Pod Started"
 
 echo "Starting services..."
 if [ "${DISABLE_AUTOLAUNCH}" != true ]; then
-    # /start_a1111.sh
-    /start_kohya.sh
-    /start_invokeai.sh
+    start_a1111.sh
+    start_kohya.sh
+    start_invokeai.sh
 fi
 
 setup_ssh
 start_vsserver
 export_env_vars
 
-execute_script "/post_start.sh" "Running post-start script..."
+execute_script "post_start.sh" "Running post-start script..."
 
 echo "Container is READY!"
 

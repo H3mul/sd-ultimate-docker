@@ -24,12 +24,12 @@ if [ -z ${RUNPOD_POD_ID} ]; then
     exit 1
 fi
 
-if [ -f /terminate_pod.pid ]; then
+if [ -f /app/pid/terminate_pod.pid ]; then
     echo "Killing actively running pod terminator process..."
-    rkill $(cat /terminate_pod.pid) 
+    rkill $(cat /app/pid/terminate_pod.pid) 
 fi
 
 echo "Tracking pid ${TRACKING_PID} and shutting down runpod after it exits. To cancel, use [ rkill \$(cat /terminate_pod.pid) ]"
 nohup sh -c "watch -g -n 30 ps -opid -p ${TRACKING_PID} && runpodctl remove pod ${RUNPOD_POD_ID}" >/dev/null 2>&1 &
 
-echo $! > /terminate_pod.pid
+echo $! > /app/pid/terminate_pod.pid

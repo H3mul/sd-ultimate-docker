@@ -18,7 +18,7 @@ fi
 source venv/bin/activate
 pip3 install "InvokeAI[xformers]" --use-pep517 --extra-index-url https://download.pytorch.org/whl/cu121
 
-[ -f invokeai.yaml ] || cp /config/invokeai/invokeai.yaml ./invokeai.yaml
+[ -f invokeai.yaml ] || cp /app/config/invokeai/invokeai.yaml ./invokeai.yaml
 
 echo "Configuring InvokeAI..."
 invokeai-configure --root ${INVOKEAI_ROOT} --yes --default_only --skip-sd-weights
