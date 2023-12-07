@@ -1,5 +1,5 @@
----
 This is a heavily modified fork of https://github.com/ashleykleynhans/stable-diffusion-docker
+
 The fork status had to be removed for Github Actions to work properly.
 
 The main changes from that project include:
@@ -8,7 +8,9 @@ The main changes from that project include:
 - Direct runtime installation into the `/workspace` (designed for runpod.io)
 
 Feel free to give it a try: [h3mul/sd-ultimate](https://hub.docker.com/r/h3mul/sd-ultimate)
----
+
+------
+
 # Docker image for A1111 Stable Diffusion Web UI, Kohya_ss and ComfyUI
 
 Now with SDXL support.
