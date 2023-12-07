@@ -5,7 +5,7 @@ set -eu
 
 cd ${INVOKEAI_ROOT}
 
-git fetch --tags
+git fetch --tags > /dev/null 2>&1
 git checkout ${INVOKEAI_VERSION}
 
 if [ -f install_complete ]; then 
@@ -28,5 +28,7 @@ invokeai-model-install --root ${INVOKEAI_ROOT} --yes --add \
     diffusers/controlnet-canny-sdxl-1.0 \
     diffusers/controlnet-depth-sdxl-1.0 \
     madebyollin/sdxl-vae-fp16-fix
+
+pip3 cache purge
 deactivate
 touch install_complete

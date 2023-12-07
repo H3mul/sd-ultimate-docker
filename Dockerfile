@@ -79,6 +79,7 @@ RUN curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/scr
 
 # Remove existing SSH host keys
 RUN rm -f /etc/ssh/ssh_host_*
+RUN mkdir -p /app/{pid,config,scripts}
 
 WORKDIR /
 
@@ -106,7 +107,14 @@ ENV DISABLE_MODEL_DOWNLOAD=false
 ENV DISABLE_TRAINING_ASSET_DOWNLOAD=false
 ENV SHUTDOWN_AFTER_PROVISION=false
 ENV DISABLE_AUTOLAUNCH=false
-ENV POD_TERMINATION_PID_PATTERN=train
+ENV PUSHBULLET_API_TOKEN=""
+ENV NOTIFY_ON_TRAINING_END=false
+ENV SHUTDOWN_AFTER_TRAINING=false
+
+# Matches most kohya training scripts,
+# eg sdxl_train_network.py, sdxl_train.py, train_network.py, etc
+ENV TRAINING_PID_PATTERN="train.*\.py"
+
 
 VOLUME [ "/workspace" ]
 EXPOSE 3000 3010 6006 8080 9090

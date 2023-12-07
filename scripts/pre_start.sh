@@ -12,8 +12,8 @@ echo "Setting the app install root to ${INSTALL_ROOT}"
 mkdir -p ${INSTALL_ROOT}
 
 echo "Starting app provision in parallel..."
-provision_invokeai.sh &
-provision_kohya.sh &
+# provision_invokeai.sh &
+# provision_kohya.sh &
 provision_a1111.sh &
 wait
 echo "All app installs complete"
@@ -26,8 +26,8 @@ if [ "${DISABLE_MODEL_DOWNLOAD}" != true ]; then
     aria2c -i /app/config/model-download-aria2.txt -j 4 -c
 
     # echo "Linking models into A1111..."
-    # ln -fs /workspace/models/main/sd_xl_base_1.0_0.9vae.safetensors     ${A1111_ROOT}/models/Stable-diffusion/sd_xl_base_1.0_0.9vae.safetensors
-    # ln -fs /workspace/models/main/sd_xl_refiner_1.0_0.9vae.safetensors  ${A1111_ROOT}/models/Stable-diffusion/sd_xl_refiner_1.0_0.9vae.safetensors
+    ln -fs /workspace/models/main/sd_xl_base_1.0_0.9vae.safetensors     ${A1111_ROOT}/models/Stable-diffusion/sd_xl_base_1.0_0.9vae.safetensors
+    ln -fs /workspace/models/main/sd_xl_refiner_1.0_0.9vae.safetensors  ${A1111_ROOT}/models/Stable-diffusion/sd_xl_refiner_1.0_0.9vae.safetensors
 
     echo "Linking InvokeAI..."
     ln -fs /workspace/models/main/sd_xl_base_1.0_0.9vae.safetensors     ${INVOKEAI_ROOT}/autoimport/sd_xl_base_1.0_0.9vae.safetensors

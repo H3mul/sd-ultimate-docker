@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -eu
+
 echo "Starting VS Server..."
 PASSWORD=${VS_SERVER_PASSWORD} \
 nohup code-server \

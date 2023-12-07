@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -eu
+
 echo "Starting InvokeAI..."
 source ${INVOKEAI_ROOT}/venv/bin/activate
 

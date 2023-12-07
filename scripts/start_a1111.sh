@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -eu
+
 echo "Starting Stable Diffusion Web UI"
 cd ${A1111_ROOT}
 source ./venv/bin/activate

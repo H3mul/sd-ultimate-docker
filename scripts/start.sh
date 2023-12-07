@@ -5,16 +5,6 @@ set -e  # Exit the script if any statement returns a non-true return value
 #                          Function Definitions                                #
 # ---------------------------------------------------------------------------- #
 
-# Execute script if exists
-execute_script() {
-    local script_path=$1
-    local script_msg=$2
-    if [[ -f ${script_path} ]]; then
-        echo "${script_msg}"
-        bash ${script_path}
-    fi
-}
-
 # Setup ssh
 setup_ssh() {
     if [[ $PUBLIC_KEY ]]; then
@@ -49,8 +39,8 @@ setup_ssh() {
 # Export env vars
 export_env_vars() {
     echo "Exporting environment variables..."
-    printenv | grep -E '^RUNPOD_|^PATH=|^_=' | awk -F = '{ print "export " $1 "=\"" $2 "\"" }' >> /etc/rp_environment
-    echo 'source /etc/rp_environment' >> ~/.bashrc
+    printenv | grep -E '^RUNPOD_|^PATH=|^_=' | awk -F = '{ print "export " $1 "=\"" $2 "\"" }' >> /etc/environment
+    echo 'source /etc/environment' >> ~/.bashrc
 }
 
 start_vsserver () {
@@ -69,8 +59,11 @@ start_vsserver () {
 #                               Main Program                                   #
 # ---------------------------------------------------------------------------- #
 
-execute_script "/pre_start.sh" "Running pre-start script..."
+export_env_vars
+setup_ssh
 
+echo "Running pre-start script..."
+pre_start.sh | tee /workspace/logs/pre_start.log
 
 if [ "${SHUTDOWN_AFTER_PROVISION}" = true ]; then
     echo "Provisioning complete, shutting down..."
@@ -82,16 +75,12 @@ echo "Pod Started"
 
 echo "Starting services..."
 if [ "${DISABLE_AUTOLAUNCH}" != true ]; then
-    start_a1111.sh
+    # start_a1111.sh A1111 immediately loads the model, so only start manually when necessary
     start_kohya.sh
     start_invokeai.sh
 fi
 
-setup_ssh
 start_vsserver
-export_env_vars
-
-execute_script "post_start.sh" "Running post-start script..."
 
 echo "Container is READY!"
 
