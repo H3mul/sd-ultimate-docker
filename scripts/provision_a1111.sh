@@ -30,14 +30,15 @@ echo "Downloading SDXL styles..."
 aria2c https://raw.githubusercontent.com/Douleb/SDXL-750-Styles-GPT4-/main/styles.csv -o ./styles.csv
 
 echo "Installing plugins..."
-git clone https://github.com/d8ahazard/sd_dreambooth_extension.git extensions/sd_dreambooth_extension
-git clone --depth=1 https://github.com/deforum-art/sd-webui-deforum.git extensions/deforum
-git clone --depth=1 https://github.com/Mikubill/sd-webui-controlnet.git extensions/sd-webui-controlnet
-git clone --depth=1 https://github.com/ashleykleynhans/a1111-sd-webui-locon.git extensions/a1111-sd-webui-locon
-git clone --depth=1 https://github.com/Gourieff/sd-webui-reactor.git extensions/sd-webui-reactor
-git clone --depth=1 https://github.com/zanllp/sd-webui-infinite-image-browsing.git extensions/infinite-image-browsing
-git clone --depth=1 https://github.com/Bing-su/adetailer.git extensions/adetailer
+[ -d extensions/sd_dreambooth_extension ] || git clone https://github.com/d8ahazard/sd_dreambooth_extension.git extensions/sd_dreambooth_extension
+[ -d extensions/deforum ] || git clone --depth=1 https://github.com/deforum-art/sd-webui-deforum.git extensions/deforum
+[ -d extensions/sd-webui-controlnet ] || git clone --depth=1 https://github.com/Mikubill/sd-webui-controlnet.git extensions/sd-webui-controlnet
+[ -d extensions/a1111-sd-webui-locon ] || git clone --depth=1 https://github.com/ashleykleynhans/a1111-sd-webui-locon.git extensions/a1111-sd-webui-locon
+[ -d extensions/sd-webui-reactor ] || git clone --depth=1 https://github.com/Gourieff/sd-webui-reactor.git extensions/sd-webui-reactor
+[ -d extensions/infinite-image-browsing ] || git clone --depth=1 https://github.com/zanllp/sd-webui-infinite-image-browsing.git extensions/infinite-image-browsing
+[ -d extensions/adetailer ] || git clone --depth=1 https://github.com/Bing-su/adetailer.git extensions/adetailer
 
+echo "Installing plugin dependencies..."
 cd ${A1111_ROOT}/extensions/deforum
 pip3 install -r requirements.txt
 cd ${A1111_ROOT}/extensions/sd-webui-controlnet
@@ -56,6 +57,9 @@ git checkout main
 git reset ${DREAMBOOTH_COMMIT} --hard
 cp /app/config/a1111/requirements_dreambooth.txt ./requirements.txt
 pip3 install -r requirements.txt
+
+cd ${A1111_ROOT}
+echo "Finished installing plugins..."
 
 cp /app/config/a1111/{webui-user.sh,config.json,ui-config.json} ./
 

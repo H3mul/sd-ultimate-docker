@@ -55,6 +55,10 @@ start_vsserver () {
     fi
 }
 
+start_pid_tracker() {
+    nohup pid-tracker.sh > /workspace/logs/pid-tracker.log 2>&1 &
+}
+
 # ---------------------------------------------------------------------------- #
 #                               Main Program                                   #
 # ---------------------------------------------------------------------------- #
@@ -81,6 +85,7 @@ if [ "${DISABLE_AUTOLAUNCH}" != true ]; then
 fi
 
 start_vsserver
+start_pid_tracker
 
 echo "Container is READY!"
 
