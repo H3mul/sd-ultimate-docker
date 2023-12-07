@@ -7,7 +7,7 @@ The main changes from that project include:
 - MUCH smaller container size
 - Direct runtime installation into the `/workspace` (designed for runpod.io)
 
-Check out the image builds at docker hub at [h3mul/sd-ultimate](https://hub.docker.com/r/h3mul/sd-ultimate), or give it a try directly on [runpod.io](https://runpod.io/console/gpu-secure-cloud?template=3rmpqs17wr)
+Check out the image builds at [h3mul/sd-ultimate](https://hub.docker.com/r/h3mul/sd-ultimate), or give it a try directly on [runpod.io](https://runpod.io/console/gpu-secure-cloud?template=3rmpqs17wr)
 
 ------
 
