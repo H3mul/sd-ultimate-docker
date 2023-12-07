@@ -5,6 +5,10 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - README.md
+      - LICENSE
+      - docker-compose.yaml
 
 jobs:
   docker:
