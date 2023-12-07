@@ -85,8 +85,9 @@ WORKDIR /
 ENV INSTALL_ROOT=/workspace/apps
 ENV KOHYA_ROOT="${INSTALL_ROOT}/kohya_ss"
 ENV INVOKEAI_ROOT="${INSTALL_ROOT}/invokeai"
+ENV A1111_ROOT="${INSTALL_ROOT}/a1111"
 
-ENV WEBUI_VERSION=v1.6.0
+ENV A1111_VERSION=v1.6.0
 ENV DREAMBOOTH_COMMIT=cf086c536b141fc522ff11f6cffc8b7b12da04b9
 ENV KOHYA_VERSION=v22.2.2
 ENV INVOKEAI_VERSION=v3.4.0post2
@@ -102,6 +103,7 @@ COPY --chmod=755 scripts/* ./
 COPY model-download-aria2.txt /
 
 COPY invokeai/invokeai.yaml /config/invokeai/invokeai.yaml
+COPY a1111 /config/a1111/
 COPY kohya_ss/requirements* /config/kohya_ss/
 
 # Copy the accelerate configuration
