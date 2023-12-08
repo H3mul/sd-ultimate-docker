@@ -9,7 +9,7 @@ services:
       DISABLE_TRAINING_ASSET_DOWNLOAD: "true"
       # SHUTDOWN_AFTER_PROVISION: "true"
     volumes:
-      - /workspace:/workspace
+      - ${WORKSPACE}:/workspace
     ports:
       - 3000:3000 # a1111
       - 3010:3010 # kohya
