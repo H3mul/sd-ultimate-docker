@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
 set -e  # Exit the script if any statement returns a non-true return value
 
+trap clean_up ERR EXIT SIGINT SIGTERM
+clean_up() {
+    trap - ERR EXIT SIGINT SIGTERM
+
+    if [ "${CLEAR_CACHE_ON_SHUTDOWN}" = true ]; then
+        echo "Cleaning InvokeAI model cache to save space..."
+        [ -d ${INVOKEAI_ROOT}/models/.cache ] rm -rf ${INVOKEAI_ROOT}/models/.cache
+    fi
+}
+
+
 # ---------------------------------------------------------------------------- #
 #                          Function Definitions                                #
 # ---------------------------------------------------------------------------- #

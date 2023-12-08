@@ -111,6 +111,9 @@ ENV DISABLE_AUTOLAUNCH=false
 ENV PUSHBULLET_API_TOKEN=""
 ENV NOTIFY_ON_TRAINING_END=false
 
+# Slows down bootup but save space (quite a bit of space, ~20Gb usually)
+ENV CLEAR_CACHE_ON_SHUTDOWN=true
+
 # Matches most kohya training scripts,
 # eg sdxl_train_network.py, sdxl_train.py, train_network.py, etc
 ENV TRAINING_PID_PATTERN="train.*\.py"
