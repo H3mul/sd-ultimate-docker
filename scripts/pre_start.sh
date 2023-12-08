@@ -33,15 +33,3 @@ if [ "${DISABLE_MODEL_DOWNLOAD}" != true ]; then
     ln -fs /workspace/models/main/sd_xl_base_1.0_0.9vae.safetensors     ${INVOKEAI_ROOT}/autoimport/sd_xl_base_1.0_0.9vae.safetensors
     ln -fs /workspace/models/main/sd_xl_refiner_1.0_0.9vae.safetensors  ${INVOKEAI_ROOT}/autoimport/sd_xl_refiner_1.0_0.9vae.safetensors
 fi
-
-if [ "${DISABLE_TRAINING_ASSET_DOWNLOAD}" != true ] && [ ! -d /workspace/training-assets ]; then
-    echo "Downloading training assets..."
-    mkdir -p /workspace/training-assets
-    [ -f /workspace/training-assets.tar.gz ] || \
-        aria2c "https://hemul-share-bucket.s3.us-east-005.backblazeb2.com/training-assets.tar.gz" \
-            -o /workspace/training-assets.tar.gz
-
-    echo "Extracting training assets..."
-    tar -xvzf /workspace/training-assets.tar.gz -C /workspace/training-assets --no-same-owner
-    rm /workspace/training-assets.tar.gz
-fi
