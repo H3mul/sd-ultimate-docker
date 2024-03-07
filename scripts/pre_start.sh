@@ -12,9 +12,9 @@ echo "Setting the app install root to ${INSTALL_ROOT}"
 mkdir -p ${INSTALL_ROOT}
 
 echo "Starting app provision in parallel..."
-provision_invokeai.sh &
-provision_kohya.sh &
-provision_a1111.sh &
+[ "${ENABLE_INVOKEAI}" == true ] && provision_invokeai.sh &
+[ "${ENABLE_KOHYA}" == true ] && provision_kohya.sh &
+[ "${ENABLE_A1111}" == true ] && provision_a1111.sh &
 wait
 echo "All app installs complete"
 

@@ -90,9 +90,8 @@ echo "Pod Started"
 
 echo "Starting services..."
 if [ "${DISABLE_AUTOLAUNCH}" != true ]; then
-    # start_a1111.sh A1111 immediately loads the model, so only start manually when necessary
-    start_kohya.sh
-    start_invokeai.sh
+    [ "${ENABLE_INVOKEAI}" == true ] && start_kohya.sh
+    [ "${ENABLE_KOHYA}" == true ] && start_invokeai.sh
 fi
 
 start_vsserver

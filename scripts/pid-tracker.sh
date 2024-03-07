@@ -26,7 +26,7 @@ echo $$ > ${SCRIPT_PID_FILE}
 mkdir -p /app/pid/tracked-pids
 
 echo "Clearing past tracked PIDs..."
-rm /app/pid/tracked-pids/*
+rm -rf /app/pid/tracked-pids/*
 
 echo "Listening for training PIDs..."
 while true; do

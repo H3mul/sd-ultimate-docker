@@ -5,9 +5,9 @@ services:
     environment:
       # PUBLIC_KEY: ""
       VS_SERVER_PASSWORD: testpass
-      # DISABLE_MODEL_DOWNLOAD: "true"
-      DISABLE_TRAINING_ASSET_DOWNLOAD: "true"
-      # SHUTDOWN_AFTER_PROVISION: "true"
+      ENABLE_A1111: false
+      ENABLE_INVOKEAI: false
+      ENABLE_KOHYA: false
     volumes:
       - ${WORKSPACE}:/workspace
     ports:
