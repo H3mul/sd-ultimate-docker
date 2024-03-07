@@ -90,8 +90,8 @@ echo "Pod Started"
 
 echo "Starting services..."
 if [ "${DISABLE_AUTOLAUNCH}" != true ]; then
-    [ "${ENABLE_INVOKEAI}" == true ] && start_kohya.sh
-    [ "${ENABLE_KOHYA}" == true ] && start_invokeai.sh
+    [ "${ENABLE_INVOKEAI}" == true ] && start_invokeai.sh
+    [ "${ENABLE_KOHYA}" == true ] && start_kohya.sh
 fi
 
 start_vsserver
