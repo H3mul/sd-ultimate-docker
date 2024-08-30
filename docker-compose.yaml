@@ -8,18 +8,20 @@ services:
       ENABLE_A1111: false
       ENABLE_INVOKEAI: false
       ENABLE_KOHYA: false
+      ENABLE_COMFYUI: true
+      DISABLE_MODEL_DOWNLOAD: true
     volumes:
-      - ${WORKSPACE}:/workspace
+      - ./workspace:/workspace
     ports:
       - 3000:3000 # a1111
       - 3010:3010 # kohya
       - 8080:8080 # vs-code
       - 9090:9090 # invokeai
       - 8188:8188 # comfyui
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]

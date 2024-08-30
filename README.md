@@ -3,7 +3,7 @@ This is a heavily modified fork of https://github.com/ashleykleynhans/stable-dif
 The fork status had to be removed for Github Actions to work properly.
 
 The main changes from that project include:
-- Addition of InvokeAI
+- Addition of InvokeAI and ComfyUI
 - MUCH smaller container size
 - Direct runtime installation into the `/workspace` (designed for runpod.io)
 
