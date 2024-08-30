@@ -7,7 +7,7 @@ clean_up() {
 
     if [ "${CLEAR_CACHE_ON_SHUTDOWN}" = true ]; then
         echo "Cleaning InvokeAI model cache to save space..."
-        [ -d ${INVOKEAI_ROOT}/models/.cache ] rm -rf ${INVOKEAI_ROOT}/models/.cache
+        [ -d "${INVOKEAI_ROOT}/models/.cache" ] && rm -rf "${INVOKEAI_ROOT}/models/.cache"
     fi
 }
 
