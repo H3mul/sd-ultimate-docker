@@ -22,6 +22,7 @@ pip3 install -r requirements.txt
 
 git -C ./custom_nodes clone --depth 1 https://github.com/ltdrdata/ComfyUI-Manager.git
 git -C ./custom_nodes clone --depth 1 https://github.com/XLabs-AI/x-flux-comfyui
+git -C ./custom_nodes clone --depth 1 https://github.com/Fannovel16/comfyui_controlnet_aux
 
 for dir in $PWD/custom_nodes/*/; do
     if [ -d "$dir" ] && [ -f "$dir/requirements.txt" ]; then
