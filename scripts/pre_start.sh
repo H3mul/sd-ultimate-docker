@@ -33,4 +33,9 @@ if [ "${DISABLE_MODEL_DOWNLOAD}" != true ]; then
     echo "Linking InvokeAI..."
     ln -fs /workspace/models/main/sd_xl_base_1.0_0.9vae.safetensors     ${INVOKEAI_ROOT}/autoimport/sd_xl_base_1.0_0.9vae.safetensors
     ln -fs /workspace/models/main/sd_xl_refiner_1.0_0.9vae.safetensors  ${INVOKEAI_ROOT}/autoimport/sd_xl_refiner_1.0_0.9vae.safetensors
+
+    echo "Linking ComfyUI..."
+    ln -fs /workspace/models/main/sd_xl_base_1.0_0.9vae.safetensors     ${COMFYUI_ROOT}/models/checkpoints/sd_xl_base_1.0_0.9vae.safetensors
+    ln -fs /workspace/models/main/sd_xl_refiner_1.0_0.9vae.safetensors  ${COMFYUI_ROOT}/models/checkpoints/sd_xl_refiner_1.0_0.9vae.safetensors
+    ln -fs /workspace/models/main/flux1-dev-fp8.safetensors             ${COMFYUI_ROOT}/models/checkpoints/flux1-dev-fp8.safetensors
 fi
