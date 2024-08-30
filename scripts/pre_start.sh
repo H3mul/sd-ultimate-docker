@@ -27,15 +27,16 @@ if [ "${DISABLE_MODEL_DOWNLOAD}" != true ]; then
     aria2c -i /app/config/model-download-aria2.txt -j 4 -c
 
     echo "Linking models into A1111..."
-    ln -fs /workspace/models/main/sd_xl_base_1.0_0.9vae.safetensors     ${A1111_ROOT}/models/Stable-diffusion/sd_xl_base_1.0_0.9vae.safetensors
-    ln -fs /workspace/models/main/sd_xl_refiner_1.0_0.9vae.safetensors  ${A1111_ROOT}/models/Stable-diffusion/sd_xl_refiner_1.0_0.9vae.safetensors
+    ln -fs /workspace/models/sdxl/sd_xl_base_1.0_0.9vae.safetensors     ${A1111_ROOT}/models/Stable-diffusion/sd_xl_base_1.0_0.9vae.safetensors
+    ln -fs /workspace/models/sdxl/sd_xl_refiner_1.0_0.9vae.safetensors  ${A1111_ROOT}/models/Stable-diffusion/sd_xl_refiner_1.0_0.9vae.safetensors
 
     echo "Linking InvokeAI..."
-    ln -fs /workspace/models/main/sd_xl_base_1.0_0.9vae.safetensors     ${INVOKEAI_ROOT}/autoimport/sd_xl_base_1.0_0.9vae.safetensors
-    ln -fs /workspace/models/main/sd_xl_refiner_1.0_0.9vae.safetensors  ${INVOKEAI_ROOT}/autoimport/sd_xl_refiner_1.0_0.9vae.safetensors
+    ln -fs /workspace/models/sdxl/sd_xl_base_1.0_0.9vae.safetensors     ${INVOKEAI_ROOT}/autoimport/sd_xl_base_1.0_0.9vae.safetensors
+    ln -fs /workspace/models/sdxl/sd_xl_refiner_1.0_0.9vae.safetensors  ${INVOKEAI_ROOT}/autoimport/sd_xl_refiner_1.0_0.9vae.safetensors
 
     echo "Linking ComfyUI..."
-    ln -fs /workspace/models/main/sd_xl_base_1.0_0.9vae.safetensors     ${COMFYUI_ROOT}/models/checkpoints/sd_xl_base_1.0_0.9vae.safetensors
-    ln -fs /workspace/models/main/sd_xl_refiner_1.0_0.9vae.safetensors  ${COMFYUI_ROOT}/models/checkpoints/sd_xl_refiner_1.0_0.9vae.safetensors
-    ln -fs /workspace/models/main/flux1-dev-fp8.safetensors             ${COMFYUI_ROOT}/models/checkpoints/flux1-dev-fp8.safetensors
+    ln -fs /workspace/models/sdxl/sd_xl_base_1.0_0.9vae.safetensors     ${COMFYUI_ROOT}/models/checkpoints/sd_xl_base_1.0_0.9vae.safetensors
+    ln -fs /workspace/models/sdxl/sd_xl_refiner_1.0_0.9vae.safetensors  ${COMFYUI_ROOT}/models/checkpoints/sd_xl_refiner_1.0_0.9vae.safetensors
+    ln -fs /workspace/models/flux/flux1-dev-fp8.safetensors             ${COMFYUI_ROOT}/models/checkpoints/flux1-dev-fp8.safetensors
+    ln -fs /workspace/models/clip/t5xxl_fp8_e4m3fn.safetensors          ${COMFYUI_ROOT}/models/checkpoints/t5xxl_fp8_e4m3fn.safetensors
 fi

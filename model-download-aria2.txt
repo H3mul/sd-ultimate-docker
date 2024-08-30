@@ -1,6 +1,8 @@
 https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0_0.9vae.safetensors
-    out=/workspace/models/main/sd_xl_base_1.0_0.9vae.safetensors
+    out=/workspace/models/sdxl/sd_xl_base_1.0_0.9vae.safetensors
 https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0_0.9vae.safetensors 
-    out=/workspace/models/main/sd_xl_refiner_1.0_0.9vae.safetensors
+    out=/workspace/models/sdxl/sd_xl_refiner_1.0_0.9vae.safetensors
 https://huggingface.co/Comfy-Org/flux1-dev/resolve/main/flux1-dev-fp8.safetensors   
-    out=/workspace/models/main/flux1-dev-fp8.safetensors
+    out=/workspace/models/flux/flux1-dev-fp8.safetensors
+https://huggingface.co/comfyanonymous/flux_text_encoders/resolve/main/t5xxl_fp8_e4m3fn.safetensors
+    out=/workspace/models/clip/t5xxl_fp8_e4m3fn.safetensors
