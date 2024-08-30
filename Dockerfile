@@ -63,7 +63,7 @@ ADD https://raw.githubusercontent.com/Douleb/SDXL-750-Styles-GPT4-/main/styles.c
 # Install VS Server
 RUN curl -fsSL https://code-server.dev/install.sh | sh && \
     code-server --install-extension enkia.tokyo-night \
-        --install-extension ms-python.python \
+        --install-extension ms-python.python
 
 COPY /vs-server/settings.json /vs-server/settings.json 
 
