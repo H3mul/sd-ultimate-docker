@@ -39,4 +39,8 @@ if [ "${DISABLE_MODEL_DOWNLOAD}" != true ]; then
     ln -fs /workspace/models/sdxl/sd_xl_refiner_1.0_0.9vae.safetensors  ${COMFYUI_ROOT}/models/checkpoints/sd_xl_refiner_1.0_0.9vae.safetensors
     ln -fs /workspace/models/flux/flux1-dev-fp8.safetensors             ${COMFYUI_ROOT}/models/checkpoints/flux1-dev-fp8.safetensors
     ln -fs /workspace/models/clip/t5xxl_fp8_e4m3fn.safetensors          ${COMFYUI_ROOT}/models/checkpoints/t5xxl_fp8_e4m3fn.safetensors
+
+    ln -fs /workspace/models/flux/flux-canny-controlnet-v3.safetensors  ${COMFYUI_ROOT}/models/xlabs/controlnets/flux-canny-controlnet-v3.safetensors
+    ln -fs /workspace/models/flux/flux-depth-controlnet-v3.safetensors  ${COMFYUI_ROOT}/models/xlabs/controlnets/flux-depth-controlnet-v3.safetensors
+    ln -fs /workspace/models/flux/flux-hed-controlnet-v3.safetensors    ${COMFYUI_ROOT}/models/xlabs/controlnets/flux-hed-controlnet-v3.safetensors
 fi

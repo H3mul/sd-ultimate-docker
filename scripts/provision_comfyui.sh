@@ -21,24 +21,19 @@ pip3 install torch torchvision torchaudio --extra-index-url https://download.pyt
 pip3 install -r requirements.txt
 pip3 cache purge
 
-# git -C ./custom_nodes clone --depth 1 https://github.com/ltdrdata/ComfyUI-Manager.git
-# git -C ./custom_nodes clone --depth 1 https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite.git
-# git -C ./custom_nodes clone --depth 1 https://github.com/Kosinkadink/ComfyUI-Advanced-ControlNet.git
-# git -C ./custom_nodes clone --depth 1 https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolvet
-# git -C ./custom_nodes clone --depth 1 https://github.com/Fannovel16/comfyui_controlnet_aux.git
-# git -C ./custom_nodes clone --depth 1 https://github.com/Fannovel16/ComfyUI-Frame-Interpolation.git
-# git -C ./custom_nodes clone --depth 1 https://github.com/jags111/efficiency-nodes-comfyui.git
-# git -C ./custom_nodes clone --depth 1 https://github.com/kijai/ComfyUI-KJNodes.git
-# git -C ./custom_nodes clone --depth 1 https://github.com/cubiq/ComfyUI_IPAdapter_plus.git
-# git -C ./custom_nodes clone --depth 1 https://github.com/cubiq/ComfyUI_essentials.git
-# git -C ./custom_nodes clone --depth 1 https://github.com/FizzleDorf/ComfyUI_FizzNodes.git
+git -C ./custom_nodes clone --depth 1 https://github.com/ltdrdata/ComfyUI-Manager.git
+git -C ./custom_nodes clone --depth 1 https://github.com/XLabs-AI/x-flux-comfyui
 
-# for dir in $PWD/custom_nodes/*/; do
-#  if [ -d "$dir" ]; then
-#   echo "Entering module: $dir"
-#   (cd "$dir" && pip install -qq -r requirements.txt)
-#  fi
-# done
+for dir in $PWD/custom_nodes/*/; do
+    if [ -d "$dir" ] && [ -f "$dir/requirements.txt" ]; then
+        echo "Installing module requirements: $dir"
+        pip3 install -qq -r $dir/requirements.txt
+    fi
+done
+
+# Link output to input for convenience
+rm -r input
+ln -s output input
 
 deactivate
 touch install_complete
