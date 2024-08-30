@@ -13,7 +13,6 @@ services:
     ports:
       - 3000:3000 # a1111
       - 3010:3010 # kohya
-      - 6006:6006 # tensorboard
       - 8080:8080 # vs-code
       - 9090:9090 # invokeai
     deploy:
