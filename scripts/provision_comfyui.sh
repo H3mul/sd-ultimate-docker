@@ -19,7 +19,6 @@ source venv/bin/activate
 
 pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu121
 pip3 install -r requirements.txt
-pip3 cache purge
 
 git -C ./custom_nodes clone --depth 1 https://github.com/ltdrdata/ComfyUI-Manager.git
 git -C ./custom_nodes clone --depth 1 https://github.com/XLabs-AI/x-flux-comfyui
@@ -35,5 +34,6 @@ done
 rm -r input
 ln -s output input
 
+pip3 cache purge
 deactivate
 touch install_complete
