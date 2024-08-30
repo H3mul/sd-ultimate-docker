@@ -133,7 +133,7 @@ ENV TRAINING_PID_PATTERN="train.*\.py"
 ENV VS_CODE_PORT=3000
 
 VOLUME [ "/workspace" ]
-EXPOSE ${A1111_PORT} ${KOHYA_PORT} ${VS_CODE_PORT} ${INVOKEAI_PORT}
+EXPOSE ${A1111_PORT} ${KOHYA_PORT} ${VS_CODE_PORT} ${INVOKEAI_PORT} ${COMFYUI_PORT}
 
 # Start the container
 SHELL ["/bin/bash", "--login", "-c"]
