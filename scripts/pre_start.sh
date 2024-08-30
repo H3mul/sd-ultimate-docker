@@ -37,8 +37,17 @@ if [ "${DISABLE_MODEL_DOWNLOAD}" != true ]; then
     echo "Linking ComfyUI..."
     ln -fs /workspace/models/sdxl/sd_xl_base_1.0_0.9vae.safetensors     ${COMFYUI_ROOT}/models/checkpoints/sd_xl_base_1.0_0.9vae.safetensors
     ln -fs /workspace/models/sdxl/sd_xl_refiner_1.0_0.9vae.safetensors  ${COMFYUI_ROOT}/models/checkpoints/sd_xl_refiner_1.0_0.9vae.safetensors
+
     ln -fs /workspace/models/flux/flux1-dev-fp8.safetensors             ${COMFYUI_ROOT}/models/checkpoints/flux1-dev-fp8.safetensors
-    ln -fs /workspace/models/clip/t5xxl_fp8_e4m3fn.safetensors          ${COMFYUI_ROOT}/models/checkpoints/t5xxl_fp8_e4m3fn.safetensors
+    ln -fs /workspace/models/flux/flux.1-shnell.ae.safetensors          ${COMFYUI_ROOT}/models/vae/flux.1-shnell.ae.safetensors
+
+    if [ -f /workspace/models/flux/flux1-dev.safetensors ]; then
+        ln -fs /workspace/models/flux/flux1-dev.safetensors             ${COMFYUI_ROOT}/models/unet/flux1-dev.safetensors
+    fi
+
+    ln -fs /workspace/models/clip/t5xxl_fp16.safetensors                ${COMFYUI_ROOT}/models/clip/t5xxl_fp16.safetensors
+    ln -fs /workspace/models/clip/clip_l.safetensors                    ${COMFYUI_ROOT}/models/clip/clip_l.safetensors
+    ln -fs /workspace/models/flux/flux.1-shnell.ae.safetensors          ${COMFYUI_ROOT}/models/vae/flux.1-shnell.ae.safetensors
 
     ln -fs /workspace/models/flux/flux-canny-controlnet-v3.safetensors  ${COMFYUI_ROOT}/models/xlabs/controlnets/flux-canny-controlnet-v3.safetensors
     ln -fs /workspace/models/flux/flux-depth-controlnet-v3.safetensors  ${COMFYUI_ROOT}/models/xlabs/controlnets/flux-depth-controlnet-v3.safetensors
