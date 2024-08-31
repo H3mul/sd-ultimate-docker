@@ -61,3 +61,5 @@ if [ "${DISABLE_MODEL_DOWNLOAD}" != true ]; then
         ln -fs /workspace/models/flux/flux-hed-controlnet-v3.safetensors    ${COMFYUI_ROOT}/models/xlabs/controlnets/flux-hed-controlnet-v3.safetensors
     fi
 fi
+
+echo "Pre-Start complete!"
