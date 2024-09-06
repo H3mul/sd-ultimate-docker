@@ -26,7 +26,14 @@ if [ "${DISABLE_MODEL_DOWNLOAD}" != true ]; then
 
     cd /
     mkdir -p /workspace/models/main
+
+    echo "Downloading models..."
     aria2c -i /app/config/model-download-aria2.txt -j 4 -c
+
+    if [ -f  /workspace/download-aria2.txt ]; then
+        echo "Downloading any additional files from /workspace/download-aria2.txt..."
+        aria2c -i /workspace/download-aria2.txt -j 4 -c
+    fi
 
     if [ -d "${A1111_ROOT}" ]; then
         echo "Linking models into A1111..."
