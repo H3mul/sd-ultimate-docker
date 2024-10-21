@@ -13,21 +13,12 @@ if [ -f install_complete ]; then
     exit
 fi
 
-[ -d venv ] || python3 -m venv --system-site-packages venv
+[ -d venv ] || python3 -m venv --system-site-packages venv --python=python3.11
 
 source venv/bin/activate
 pip3 install "InvokeAI[xformers]" --use-pep517 --extra-index-url https://download.pytorch.org/whl/cu121
 
 [ -f invokeai.yaml ] || cp /app/config/invokeai/invokeai.yaml ./invokeai.yaml
-
-echo "Configuring InvokeAI..."
-invokeai-configure --root ${INVOKEAI_ROOT} --yes --default_only --skip-sd-weights
-# echo "Installing additional InvokeAI models..."
-# invokeai-model-install --root ${INVOKEAI_ROOT} --yes --add \
-#     diffusers/stable-diffusion-xl-1.0-inpainting-0.1 \
-#     diffusers/controlnet-canny-sdxl-1.0 \
-#     diffusers/controlnet-depth-sdxl-1.0 \
-#     madebyollin/sdxl-vae-fp16-fix
 
 pip3 cache purge
 deactivate
