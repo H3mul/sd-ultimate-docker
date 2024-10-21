@@ -13,10 +13,11 @@ if [ -f install_complete ]; then
     exit
 fi
 
-[ -d venv ] || python3 -m venv --system-site-packages venv --python=python3.11
+[ -d venv ] || python3 -m venv --system-site-packages venv
 
 source venv/bin/activate
-pip3 install "InvokeAI[xformers]" --use-pep517 --extra-index-url https://download.pytorch.org/whl/cu121
+
+pip3 install "InvokeAI[xformers]==${INVOKEAI_PIPY_VERSION}" --use-pep517
 
 [ -f invokeai.yaml ] || cp /app/config/invokeai/invokeai.yaml ./invokeai.yaml
 
