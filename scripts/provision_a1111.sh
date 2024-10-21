@@ -19,9 +19,9 @@ source venv/bin/activate
 
 cp /app/config/a1111/{requirements.txt,requirements_versions.txt,install-automatic.py} ./
 
-pip3 install torch==2.0.1 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-pip3 install xformers==0.0.22 tensorrt
-pip3 install -r requirements_versions.txt
+uv pip install torch==2.0.1 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+uv pip install xformers==0.0.22 tensorrt
+uv pip install -r requirements_versions.txt
 
 echo "Initial reqs complete, running A1111 install..."
 python3 -m install-automatic --skip-torch-cuda-test
@@ -40,15 +40,15 @@ echo "Installing plugins..."
 
 echo "Installing plugin dependencies..."
 cd ${A1111_ROOT}/extensions/deforum
-pip3 install -r requirements.txt
+uv pip install -r requirements.txt
 cd ${A1111_ROOT}/extensions/sd-webui-controlnet
-pip3 install -r requirements.txt
+uv pip install -r requirements.txt
 cd ${A1111_ROOT}/extensions/sd-webui-reactor
-pip3 install -r requirements.txt
-pip3 install onnxruntime-gpu
+uv pip install -r requirements.txt
+uv pip install onnxruntime-gpu
 echo "CUDA" > last_device.txt
 cd ${A1111_ROOT}/extensions/infinite-image-browsing
-pip3 install -r requirements.txt
+uv pip install -r requirements.txt
 cd ${A1111_ROOT}/extensions/adetailer
 python3 -m install
 
@@ -56,14 +56,14 @@ cd ${A1111_ROOT}/extensions/sd_dreambooth_extension
 git checkout main
 git reset ${DREAMBOOTH_COMMIT} --hard
 cp /app/config/a1111/requirements_dreambooth.txt ./requirements.txt
-pip3 install -r requirements.txt
+uv pip install -r requirements.txt
 
 cd ${A1111_ROOT}
 echo "Finished installing plugins..."
 
 cp /app/config/a1111/{webui-user.sh,config.json,ui-config.json} ./
 
-pip3 cache purge
+uv cache clean
 
 deactivate
 touch install_complete

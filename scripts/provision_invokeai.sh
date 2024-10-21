@@ -17,10 +17,10 @@ fi
 
 source venv/bin/activate
 
-uv pip install "InvokeAI[xformers]==${INVOKEAI_PIPY_VERSION}"
+uv pip install -v "InvokeAI[xformers]==${INVOKEAI_PIPY_VERSION}"
 
 [ -f invokeai.yaml ] || cp /app/config/invokeai/invokeai.yaml ./invokeai.yaml
 
-uv pip cache purge
+uv cache clean
 deactivate
 touch install_complete

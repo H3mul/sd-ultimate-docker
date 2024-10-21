@@ -19,16 +19,16 @@ cp /app/config/kohya_ss/requirements* ./
 [ -d venv ] || python3 -m venv --system-site-packages venv
 source venv/bin/activate
 
-pip3 install torch==2.0.1 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-pip3 install xformers==0.0.22 \
+uv pip install torch==2.0.1 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+uv pip install xformers==0.0.22 \
     bitsandbytes==0.41.1 \
     tensorboard==2.14.1 \
     tensorflow==2.14.0 \
     wheel \
     scipy \
     tensorrt
-pip3 install -r requirements.txt
-pip3 install .
-pip3 cache purge
+uv pip install -r requirements.txt
+uv pip install .
+uv cache clean
 deactivate
 touch install_complete

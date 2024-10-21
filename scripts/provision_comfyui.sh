@@ -17,8 +17,8 @@ fi
 [ -d venv ] || python3 -m venv --system-site-packages venv
 source venv/bin/activate
 
-pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu121
-pip3 install -r requirements.txt
+uv pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu121
+uv pip install -r requirements.txt
 
 git -C ./custom_nodes clone --depth 1 https://github.com/ltdrdata/ComfyUI-Manager.git
 git -C ./custom_nodes clone --depth 1 https://github.com/XLabs-AI/x-flux-comfyui
@@ -28,7 +28,7 @@ git -C ./custom_nodes clone --depth 1 https://github.com/rgthree/rgthree-comfy
 for dir in $PWD/custom_nodes/*/; do
     if [ -d "$dir" ] && [ -f "$dir/requirements.txt" ]; then
         echo "Installing module requirements: $dir"
-        pip3 install -qq -r $dir/requirements.txt
+        uv pip install -qq -r $dir/requirements.txt
     fi
 done
 
@@ -36,6 +36,6 @@ done
 rm -r input
 ln -s output input
 
-pip3 cache purge
+uv cache clean
 deactivate
 touch install_complete
