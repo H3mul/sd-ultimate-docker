@@ -1,5 +1,5 @@
 # Stage 1: Base
-FROM python:3.12
+FROM python:3.14-rc
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ENV DEBIAN_FRONTEND=noninteractive \
