@@ -94,24 +94,28 @@ ENV PATH=${PATH}:/app/scripts
 
 ENV INSTALL_ROOT=/workspace/apps
 
-ENV ENABLE_KOHYA=false
+# renovate: datasource=github-releases depName=bmaltais/kohya_ss
 ENV KOHYA_VERSION=v24.1.6
+ENV ENABLE_KOHYA=false
 ENV KOHYA_ROOT="${INSTALL_ROOT}/kohya_ss"
 ENV KOHYA_PORT=3000
 
-ENV ENABLE_INVOKEAI=false
+# renovate: datasource=github-releases depName=invoke-ai/InvokeAI
 ENV INVOKEAI_VERSION=v5.2.0
+ENV ENABLE_INVOKEAI=false
 ENV INVOKEAI_ROOT="${INSTALL_ROOT}/invokeai"
 ENV INVOKEAI_PORT=9090
 
-ENV ENABLE_A1111=false
+# renovate: datasource=github-releases depName=AUTOMATIC1111/stable-diffusion-webui
 ENV A1111_VERSION=v1.10.0
+ENV ENABLE_A1111=false
 ENV DREAMBOOTH_COMMIT=1.1.0
 ENV A1111_ROOT="${INSTALL_ROOT}/a1111"
 ENV A1111_PORT=3000
 
-ENV ENABLE_COMFYUI=false
+# renovate: datasource=github-releases depName=comfyanonymous/ComfyUI
 ENV COMFYUI_VERSION=v0.1.3
+ENV ENABLE_COMFYUI=false
 ENV COMFYUI_ROOT="${INSTALL_ROOT}/comfyui"
 ENV COMFYUI_PORT=8188
 
