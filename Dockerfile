@@ -78,6 +78,9 @@ RUN wget https://github.com/runpod/runpodctl/releases/download/v1.10.0/runpodctl
 RUN curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | bash && \
     apt install speedtest
 
+
+RUN pip install uv
+
 # Remove existing SSH host keys
 RUN rm -f /etc/ssh/ssh_host_*
 RUN mkdir -p /app/{pid,config,scripts}
