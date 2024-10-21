@@ -35,6 +35,8 @@ if [ "${DISABLE_MODEL_DOWNLOAD}" != true ]; then
         aria2c -i /workspace/download-aria2.txt -j 4 -c
     fi
 
+    set +e
+
     if [ -d "${A1111_ROOT}" ]; then
         echo "Linking models into A1111..."
         ln -fs /workspace/models/sdxl/sd_xl_base_1.0_0.9vae.safetensors     ${A1111_ROOT}/models/Stable-diffusion/sd_xl_base_1.0_0.9vae.safetensors
@@ -45,6 +47,10 @@ if [ "${DISABLE_MODEL_DOWNLOAD}" != true ]; then
         echo "Linking InvokeAI..."
         ln -fs /workspace/models/sdxl/sd_xl_base_1.0_0.9vae.safetensors     ${INVOKEAI_ROOT}/autoimport/sd_xl_base_1.0_0.9vae.safetensors
         ln -fs /workspace/models/sdxl/sd_xl_refiner_1.0_0.9vae.safetensors  ${INVOKEAI_ROOT}/autoimport/sd_xl_refiner_1.0_0.9vae.safetensors
+
+        for model in /workspace/models/flux/*; do
+            ln -fs ${model} ${INVOKEAI_ROOT}/autoimport/${model}
+        done
     fi
 
     if [ -d "${COMFYUI_ROOT}" ]; then
@@ -67,6 +73,8 @@ if [ "${DISABLE_MODEL_DOWNLOAD}" != true ]; then
         ln -fs /workspace/models/flux/flux-depth-controlnet-v3.safetensors  ${COMFYUI_ROOT}/models/xlabs/controlnets/flux-depth-controlnet-v3.safetensors
         ln -fs /workspace/models/flux/flux-hed-controlnet-v3.safetensors    ${COMFYUI_ROOT}/models/xlabs/controlnets/flux-hed-controlnet-v3.safetensors
     fi
+
+    set -e
 fi
 
 echo "Pre-Start complete!"
