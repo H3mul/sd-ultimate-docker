@@ -22,12 +22,12 @@ pip3 install "InvokeAI[xformers]" --use-pep517 --extra-index-url https://downloa
 
 echo "Configuring InvokeAI..."
 invokeai-configure --root ${INVOKEAI_ROOT} --yes --default_only --skip-sd-weights
-echo "Installing additional InvokeAI models..."
-invokeai-model-install --root ${INVOKEAI_ROOT} --yes --add \
-    diffusers/stable-diffusion-xl-1.0-inpainting-0.1 \
-    diffusers/controlnet-canny-sdxl-1.0 \
-    diffusers/controlnet-depth-sdxl-1.0 \
-    madebyollin/sdxl-vae-fp16-fix
+# echo "Installing additional InvokeAI models..."
+# invokeai-model-install --root ${INVOKEAI_ROOT} --yes --add \
+#     diffusers/stable-diffusion-xl-1.0-inpainting-0.1 \
+#     diffusers/controlnet-canny-sdxl-1.0 \
+#     diffusers/controlnet-depth-sdxl-1.0 \
+#     madebyollin/sdxl-vae-fp16-fix
 
 pip3 cache purge
 deactivate
