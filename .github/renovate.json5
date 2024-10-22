@@ -11,7 +11,7 @@
     automerge: true,
     platformAutomerge: true,
     baseBranches: [
-        'master',
+        'main',
     ],
     ignoreTests: true,
     includePaths: [
