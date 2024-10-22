@@ -18,6 +18,13 @@
         '.github/**',
         'Dockerfile'
     ],
+    packageRules: [
+        {
+            matchDatasources: ["docker"],
+            matchPackageNames: ["python"],
+            allowedVersions: "<3.12"
+        }
+    ],
     customManagers: [
         {
             customType: 'regex',
