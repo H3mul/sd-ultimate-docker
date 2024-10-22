@@ -26,6 +26,12 @@ RUN apt update && \
         bash \
         dos2unix \
         git \
+        cmake \
+        libncurses5-dev \
+        libncursesw5-dev \
+        libudev-dev \
+        libdrm-dev \
+        libsystemd-dev \
         git-lfs \
         ncdu \
         net-tools \
@@ -53,11 +59,20 @@ RUN apt update && \
         libgoogle-perftools4 \
         libtcmalloc-minimal4 \
         apt-transport-https \
+        python3-launchpadlib \
+        less \
         ca-certificates && \
     update-ca-certificates && \
     apt clean && \
     rm -rf /var/lib/apt/lists/* && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+
+RUN git clone https://github.com/Syllo/nvtop.git /app/nvtop && \
+    mkdir -p /app/nvtop/build && cd /app/nvtop/build && \
+    cmake .. -DNVIDIA_SUPPORT=ON -DAMDGPU_SUPPORT=ON -DINTEL_SUPPORT=ON && \
+    make && \
+    make install && \
+    ln -fs /app/nvtop/build/src/nvtop /usr/bin/nvtop
 
 # ADD SDXL styles.csv
 ADD https://raw.githubusercontent.com/Douleb/SDXL-750-Styles-GPT4-/main/styles.csv /config/styles.csv
