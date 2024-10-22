@@ -9,7 +9,7 @@ on:
       - README.md
       - LICENSE
       - docker-compose.yaml
-      - .github/
+      - .github/**
 
 jobs:
   docker:
