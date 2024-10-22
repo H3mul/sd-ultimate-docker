@@ -15,8 +15,8 @@
     ],
     ignoreTests: true,
     includePaths: [
-        '.github/**'
-        'Dockerfile',
+        '.github/**',
+        'Dockerfile'
     ],
     customManagers: [
         {
