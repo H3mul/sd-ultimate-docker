@@ -121,7 +121,7 @@ ENV KOHYA_ROOT="${INSTALL_ROOT}/kohya_ss"
 ENV KOHYA_PORT=3000
 
 # renovate: datasource=github-releases depName=invoke-ai/InvokeAI
-ENV INVOKEAI_VERSION=v5.4.3
+ENV INVOKEAI_VERSION=v5.5.0
 # renovate: datasource=pypi depName=InvokeAI
 ENV INVOKEAI_PYPI_VERSION=5.5.0
 ENV ENABLE_INVOKEAI=false
