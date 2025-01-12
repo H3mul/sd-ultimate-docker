@@ -24,6 +24,7 @@ git -C ./custom_nodes clone --depth 1 https://github.com/ltdrdata/ComfyUI-Manage
 git -C ./custom_nodes clone --depth 1 https://github.com/XLabs-AI/x-flux-comfyui
 git -C ./custom_nodes clone --depth 1 https://github.com/Fannovel16/comfyui_controlnet_aux
 git -C ./custom_nodes clone --depth 1 https://github.com/rgthree/rgthree-comfy
+git -C ./custom_nodes clone --depth 1 https://github.com/MrForExample/ComfyUI-3D-Pack.git
 
 for dir in $PWD/custom_nodes/*/; do
     if [ -d "$dir" ] && [ -f "$dir/requirements.txt" ]; then
