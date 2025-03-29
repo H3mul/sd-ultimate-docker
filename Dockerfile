@@ -115,7 +115,7 @@ ENV PATH=${PATH}:/app/scripts
 ENV INSTALL_ROOT=/workspace/apps
 
 # renovate: datasource=github-releases depName=bmaltais/kohya_ss
-ENV KOHYA_VERSION=v24.1.7
+ENV KOHYA_VERSION=v25.0.3
 ENV ENABLE_KOHYA=false
 ENV KOHYA_ROOT="${INSTALL_ROOT}/kohya_ss"
 ENV KOHYA_PORT=3000
