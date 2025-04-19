@@ -123,7 +123,7 @@ ENV KOHYA_PORT=3000
 # renovate: datasource=github-releases depName=invoke-ai/InvokeAI
 ENV INVOKEAI_VERSION=v5.10.0
 # renovate: datasource=pypi depName=InvokeAI
-ENV INVOKEAI_PYPI_VERSION=5.9.1
+ENV INVOKEAI_PYPI_VERSION=5.10.0
 ENV ENABLE_INVOKEAI=false
 ENV INVOKEAI_ROOT="${INSTALL_ROOT}/invokeai"
 ENV INVOKEAI_PORT=9090
