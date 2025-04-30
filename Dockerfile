@@ -1,7 +1,7 @@
 # Required by InvokeAI (<3.12)
 # https://github.com/invoke-ai/InvokeAI/blob/bbd89d54b48397c65edc32fbdaa07564eee33298/pyproject.toml#L8C21-L8C34
 
-FROM python:3.11@sha256:a3e280261e448b95d49423532ccd6e5329c39d171c10df1457891ff7c5e2301b
+FROM python:3.11@sha256:ab60e444e04215a62671149f24c59cc2893b49cb5dad26f9d139077a86be760e
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ENV DEBIAN_FRONTEND=noninteractive \
