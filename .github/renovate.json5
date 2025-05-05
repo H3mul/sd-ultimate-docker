@@ -16,26 +16,30 @@
     ignoreTests: true,
     includePaths: [
         '.github/**',
-        'Dockerfile'
+        'Dockerfile',
     ],
     packageRules: [
         {
-            matchDatasources: ["docker"],
-            matchPackageNames: ["python"],
-            allowedVersions: "<3.12"
-        }
+            matchDatasources: [
+                'docker',
+            ],
+            matchPackageNames: [
+                'python',
+            ],
+            allowedVersions: '<3.12',
+        },
     ],
     customManagers: [
         {
             customType: 'regex',
-            "description": "Update pinned dockerfile arg/env versions",
-            fileMatch: [
-                '(^|/)Dockerfile$',
-                '(^|/)Dockerfile\\.[^/]*$',
+            description: 'Update pinned dockerfile arg/env versions',
+            managerFilePatterns: [
+                '/(^|/)Dockerfile$/',
+                '/(^|/)Dockerfile\\.[^/]*$/',
             ],
             matchStrings: [
-                "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s(ARG|ENV) .*?_VERSION=(?<currentValue>.*)\\s",
-            ]
+                'renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s(ARG|ENV) .*?_VERSION=(?<currentValue>.*)\\s',
+            ],
         },
-    ]
+    ],
 }
