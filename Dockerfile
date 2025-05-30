@@ -127,6 +127,7 @@ ENV INVOKEAI_PYPI_VERSION=5.12.0
 ENV ENABLE_INVOKEAI=false
 ENV INVOKEAI_ROOT="${INSTALL_ROOT}/invokeai"
 ENV INVOKEAI_PORT=9090
+ENV HUGGINGFACE_TOKEN=""
 
 # renovate: datasource=github-releases depName=AUTOMATIC1111/stable-diffusion-webui
 ENV A1111_VERSION=v1.10.1
@@ -155,7 +156,8 @@ ENV CLEAR_CACHE_ON_SHUTDOWN=true
 # eg sdxl_train_network.py, sdxl_train.py, train_network.py, etc
 ENV TRAINING_PID_PATTERN="train.*\.py"
 
-ENV VS_CODE_PORT=3000
+ENV VS_CODE_PORT=8080
+ENV VS_SERVER_PASSWORD=""
 
 VOLUME [ "/workspace" ]
 EXPOSE ${A1111_PORT} ${KOHYA_PORT} ${VS_CODE_PORT} ${INVOKEAI_PORT} ${COMFYUI_PORT}

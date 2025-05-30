@@ -3,7 +3,6 @@ set -eu
 
 echo "Starting InvokeAI..."
 source ${INVOKEAI_ROOT}/venv/bin/activate
-
 nohup ${INVOKEAI_ROOT}/scripts/invokeai-web.py \
     >> /workspace/logs/invokeai.log 2>&1 &           
 echo $! > /app/pid/invokeai.pid
