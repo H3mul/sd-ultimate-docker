@@ -53,3 +53,5 @@ InvokeAI:
     allow_nodes: null
     deny_nodes: null
     node_cache_size: 512
+  Model Install:
+    hashing_algorithm: blake3_multi
