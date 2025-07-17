@@ -10,7 +10,7 @@
     dependencyDashboardAutoclose: true,
     automerge: true,
     platformAutomerge: true,
-    baseBranches: [
+    baseBranchPatterns: [
         'main',
     ],
     ignoreTests: true,
