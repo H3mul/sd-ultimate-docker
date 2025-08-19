@@ -19,7 +19,7 @@ fi
 
 [ -d venv ] || uv venv --python 3.12 venv
 
-# source venv/bin/activate
+source venv/bin/activate
 
 uv pip install -v "InvokeAI[xformers]==${INVOKEAI_PYPI_VERSION}"
 

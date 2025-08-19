@@ -1,14 +1,15 @@
 version: "3.9"
 services:
   sd-ultimate-test:
-    image: h3mul/sd-ultimate:latest
+    # image: h3mul/sd-ultimate:latest
+    build: ./
     environment:
       # PUBLIC_KEY: ""
       VS_SERVER_PASSWORD: testpass
       ENABLE_A1111: false
-      ENABLE_INVOKEAI: false
+      ENABLE_INVOKEAI: true
       ENABLE_KOHYA: false
-      ENABLE_COMFYUI: true
+      ENABLE_COMFYUI: false
       DISABLE_MODEL_DOWNLOAD: true
     volumes:
       - ./workspace:/workspace
