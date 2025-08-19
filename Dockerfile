@@ -1,7 +1,4 @@
-# Required by InvokeAI (<3.12)
-# https://github.com/invoke-ai/InvokeAI/blob/bbd89d54b48397c65edc32fbdaa07564eee33298/pyproject.toml#L8C21-L8C34
-
-FROM python:3.11@sha256:0dab67c838514eef83e6c9d2c0e53e960fc94237635e8996d08caeec98937abc
+FROM python:3.13
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -121,9 +118,9 @@ ENV KOHYA_ROOT="${INSTALL_ROOT}/kohya_ss"
 ENV KOHYA_PORT=3000
 
 # renovate: datasource=github-releases depName=invoke-ai/InvokeAI
-ENV INVOKEAI_VERSION=v6.3.0
+ENV INVOKEAI_VERSION=v6.4.0
 # renovate: datasource=pypi depName=InvokeAI
-ENV INVOKEAI_PYPI_VERSION=6.3.0
+ENV INVOKEAI_PYPI_VERSION=6.4.0
 ENV ENABLE_INVOKEAI=false
 ENV INVOKEAI_ROOT="${INSTALL_ROOT}/invokeai"
 ENV INVOKEAI_PORT=9090

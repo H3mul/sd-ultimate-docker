@@ -13,9 +13,13 @@ if [ -f install_complete ]; then
     exit
 fi
 
-[ -d venv ] || python3 -m venv --system-site-packages venv
+# Required by InvokeAI:
+# requires-python = ">=3.10, <3.13"
+# https://github.com/invoke-ai/InvokeAI/blob/aeee22c5a45de6fb5232f115ef411728628ba5bb/pyproject.toml
 
-source venv/bin/activate
+[ -d venv ] || uv venv --python 3.12 venv
+
+# source venv/bin/activate
 
 uv pip install -v "InvokeAI[xformers]==${INVOKEAI_PYPI_VERSION}"
 
