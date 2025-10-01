@@ -93,6 +93,7 @@ if [ "${DISABLE_AUTOLAUNCH}" != true ]; then
     [ "${ENABLE_INVOKEAI}" == true ] && start_invokeai.sh
     [ "${ENABLE_KOHYA}" == true ] && start_kohya.sh
     [ "${ENABLE_COMFYUI}" == true ] && start_comfyui.sh
+    [ "${ENABLE_FLUXGYM}" == true ] && start_fluxgym.sh
 fi
 
 start_vsserver

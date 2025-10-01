@@ -7,9 +7,10 @@ services:
       # PUBLIC_KEY: ""
       VS_SERVER_PASSWORD: testpass
       ENABLE_A1111: false
-      ENABLE_INVOKEAI: true
+      ENABLE_INVOKEAI: false
       ENABLE_KOHYA: false
       ENABLE_COMFYUI: false
+      ENABLE_FLUXGYM: true
       DISABLE_MODEL_DOWNLOAD: true
     volumes:
       - ./workspace:/workspace
@@ -19,6 +20,7 @@ services:
       - 8080:8080 # vs-code
       - 9090:9090 # invokeai
       - 8188:8188 # comfyui
+      - 7860:7860 # fluxgym
     # deploy:
     #   resources:
     #     reservations:

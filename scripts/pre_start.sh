@@ -16,6 +16,7 @@ echo "Starting app provision in parallel..."
 [ "${ENABLE_KOHYA}" == true ] && provision_kohya.sh &
 [ "${ENABLE_A1111}" == true ] && provision_a1111.sh &
 [ "${ENABLE_COMFYUI}" == true ] && provision_comfyui.sh &
+[ "${ENABLE_FLUXGYM}" == true ] && provision_fluxgym.sh &
 wait
 echo "All app installs complete"
 
