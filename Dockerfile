@@ -1,4 +1,4 @@
-FROM python:3.14@sha256:1f8e9bfe9af549c7190c8d5a034e33bc2c63a6abfa4f861a76384d7a3a79880d
+FROM python:3.14@sha256:2febcd1e225a79391d5c9a7b416125af542ffd2f686201a58ea1d5595e110c4d
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ENV DEBIAN_FRONTEND=noninteractive \
